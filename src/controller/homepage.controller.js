@@ -7,10 +7,9 @@ export default class HomepageController {
     res.render("homePage", {
       body: "main",
       session: req.session.user,
-      // here this user is storing the session data individually on all pages
-      // user: req.session.user,
     });
   }
+  // here this method is for rendering the job posting page
   static getJobPage(req, res) {
     res.render("homePage", { body: "jobsPosting" });
   }
@@ -46,5 +45,18 @@ export default class HomepageController {
       body: "jobsPosting",
       // user: req.session.user,
     });
+  }
+  // this method is for getting the new job posting form
+  static getPostJobForm(req, res) {
+    if (session) {
+      res.render("homePage", {
+        body: "newPostJobs",
+        session: req.session.user,
+      });
+    }
+  }
+  // here method of posting new job
+  static postNewJob(req, res) {
+    res.render("homePage", { body: "jobsPosting", session: req.session.user });
   }
 }

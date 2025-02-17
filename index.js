@@ -44,11 +44,17 @@ server.get("/", HomepageController.getHomepage);
 server.get("/jobPosting", HomepageController.getJobPage);
 server.get("/registrationForm", HomepageController.getRegisterPage);
 server.get("/login2", HomepageController.getLoginPage1);
+// here is the route for the new job posting form
+server.get("/postjobs", HomepageController.getPostJobForm);
+
 server.post(
   "/registrationForm",
   registrationValidation,
   HomepageController.getLoginPage
 );
+// here is the route when new job is posted it shows in job posting page
+server.post("/postjobs", HomepageController.postNewJob);
+
 // here is the route for the login form after submitting the registration form
 server.get("/login", HomepageController.getLoginPage);
 // here is the route for the login form from registration form where login button lies

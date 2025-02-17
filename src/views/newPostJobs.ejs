@@ -1,0 +1,74 @@
+<div class="newOpening">
+  <h1>Post a New Job</h1>
+  <form action="/postjobs" method="POST">
+    <div class="mb-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01">
+          <option selected>Choose...</option>
+          <option value="Tech">Tech</option>
+          <option value="Non-Tech">Non-Tech</option>
+        </select>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="input-group mb-3">
+        <select class="form-select" id="inputGroupSelect01">
+          <option selected>Choose...</option>
+          <option value="HR">HR</option>
+          <option value="SDE">SDE</option>
+          <option value="DevOps">DevOps</option>
+          <option value="MEAN Developer">MEAN Developer</option>
+          <option value="MEARN Developer">MEARN Developer</option>
+          <option value="JAVA Developer">JAVA Developer</option>
+          <option value="Front End Developer">Front End Developer</option>
+          <option value="Back End Developer">Back End Developer</option>
+          <option value="Full Stack Developer">Full Stack Developer</option>
+        </select>
+      </div>
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="location"
+        placeholder="Enter Job Location"
+        required
+      />
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="company-name">Options</label>
+      <input
+        type="text"
+        class="form-control"
+        id="company-name"
+        placeholder="Enter company name"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="salary"
+        placeholder="Enter salary"
+      />
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="jobopening">Job Opening</label>
+      <input
+        type="number"
+        class="form-control"
+        id="jobopening"
+        placeholder="number of openings"
+        min="1"
+        max="10"
+      />
+    </div>
+    <!-- overflow -->
+    <div class="overflow-auto">skills Required:</div>
+    <!-- date and time  -->
+    <label for="dob">Select Date:</label>
+    <input type="date" id="dob" name="dob" />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

@@ -235,3 +235,21 @@ main {
   border: 2px solid black;
   border-radius: 0.5rem;
 }
+/* here styling for newPostJobs page where form for new Post jobs is created   */
+.newOpening {
+  border: 5px solid black;
+  width: 50rem;
+  height: 30rem;
+  text-align: center;
+  margin: 2rem 20rem;
+  border-radius: 1rem;
+  background-color: rgb(190, 183, 183);
+}
+#location,
+#salary {
+  width: 100%;
+}
+#dob {
+  width: 15rem;
+  border-radius: 0.5rem;
+}
