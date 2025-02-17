@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+nav {
+  background-color: blueviolet;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#logo {
+  width: 5rem;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+}
+.search {
+  display: flex;
+  margin-right: 2rem;
+}
+p {
+  margin: 0 1rem;
+  cursor: pointer;
+}
+#search {
+  margin-right: 1rem;
+  height: 2rem;
+  width: 14rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  outline: none;
+  border: none;
+}
+.search-btn {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.fa-solid {
+  cursor: pointer;
+}
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+  background-image: url(/image/backgroung.jpeg);
+  background-size: contain;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  height: 17rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  background-color: rgb(173, 169, 169);
+  box-shadow: 5px 5px 5px 5px rgb(128, 128, 128);
+  padding: 1rem;
+}
+
+.btn {
+  width: 25rem;
+}
+.seeker,
+.recruiter {
+  width: 10rem;
+  height: 2rem;
+  background-color: aquamarine;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  /* border: none; */
+  font-size: large;
+  margin: 0 0.5rem;
+}
+/* here we starts adding the jobseeker page styling  */
+.jobposting-header {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.new-container {
+  display: flex;
+  width: 95%;
+  border: 5px solid black;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+.job-description {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  height: 30%;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+}
+.job-description h1 {
+  margin-left: 2rem;
+}
+.hiringStatus {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.fa-chart-line {
+  font-size: x-large;
+}
+.company-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* #tech {
+  font-size: larger;
+} */
+.location,
+.currency,
+.skillsType {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: large;
+  margin-left: 1rem;
+  margin-top: 0.7rem;
+}
+.skills {
+  display: flex;
+  flex-direction: column;
+}
+.skill {
+  height: 6rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.details {
+  display: flex;
+  justify-content: center;
+}
+#details {
+  width: 10rem;
+  margin-bottom: 0.8rem;
+  background-color: aquamarine;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  height: 1.8rem;
+  color: brown;
+  font-weight: bolder;
+}
+.skillName {
+  padding: 0.7rem;
+  background-color: aquamarine;
+  border-radius: 0.5rem;
+  height: 2.4rem;
+  margin: 0.5rem;
+}
+/* here we starts adding styling for recruiter registration page  */
+.form-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1rem 28rem;
+  background-color: gray;
+  width: 30rem;
+  height: 44rem;
+  border: 2px solid black;
+  border-radius: 1rem;
+}
+.form-control {
+  width: 25rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+}
+
+.login {
+  margin-top: 1rem;
+  width: 4rem;
+  border-radius: 0.5rem;
+  background-color: aquamarine;
+}
+#isAccount,
+#account {
+  margin-top: 1rem;
+}
+/* here we starts adding styling for recruiter login page  */
+.form-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 2rem 28rem;
+  background-color: gray;
+  width: 28rem;
+  height: 34rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+}
+/* here is styling for bootstrap button  */
+.btn-danger {
+  width: 6rem;
+}

@@ -1,0 +1,50 @@
+import express from "express";
+// import ejs from "express-ejs-layouts";
+import path from "path";
+import HomepageController from "./src/controller/homepage.controller.js";
+import registrationValidation from "./src/middleware/registration.validationMiddleware.js";
+import loginValidation from "./src/middleware/login.validationMiddleware.js";
+import session from "express-session";
+const server = express();
+server.use(
+  session({
+    secret: "shashank", // Change this to a strong secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+server.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+// creating server
+server.use(express.static(path.resolve("src", "public", "css")));
+// encoding the data into json format so that it can be used in the backend
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+
+// ejs engine setup
+server.set("view engine", "ejs");
+server.set("views", path.resolve("src", "views"));
+
+server.get("/", HomepageController.getHomepage);
+server.get("/jobPosting", HomepageController.getJobPage);
+server.get("/registrationForm", HomepageController.getRegisterPage);
+server.post(
+  "/registrationForm",
+  registrationValidation,
+  HomepageController.getLoginPage
+);
+// here is the route for the login form after submitting the registration form
+server.get("/login", HomepageController.getLoginPage);
+// here is the route for the login form from registration form where login button lies
+server.get("/login1", HomepageController.getLoginPage1);
+server.post(
+  "/login",
+  loginValidation,
+  HomepageController.getRecruiterJobPostingPage
+);
+server.listen(5500, () => {
+  console.log("Server is running on port 5500");
+});
