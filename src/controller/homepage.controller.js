@@ -4,7 +4,12 @@ const recruiterData = RegisterRecruiterData.getRecruiterList();
 
 export default class HomepageController {
   static getHomepage(req, res) {
-    res.render("homePage", { body: "main", session: res.locals.user });
+    res.render("homePage", {
+      body: "main",
+      session: req.session.user,
+      // here this user is storing the session data individually on all pages
+      // user: req.session.user,
+    });
   }
   static getJobPage(req, res) {
     res.render("homePage", { body: "jobsPosting" });
@@ -12,6 +17,7 @@ export default class HomepageController {
   static getRegisterPage(req, res) {
     res.render("homePage", {
       body: "recruiter-registrationForm",
+      // user: req.session.user,
     });
   }
   // this method is for rendering login form after submitting the registration form
@@ -24,6 +30,7 @@ export default class HomepageController {
   static getLoginPage1(req, res) {
     res.render("homePage", {
       body: "recruiter-loginForm",
+      // user: req.session.user,
     });
   }
   static getRecruiterJobPostingPage(req, res) {
@@ -37,7 +44,7 @@ export default class HomepageController {
     };
     res.render("homePage", {
       body: "jobsPosting",
-      user: req.session.user,
+      // user: req.session.user,
     });
   }
 }

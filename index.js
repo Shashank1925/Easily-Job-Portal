@@ -18,6 +18,18 @@ server.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
+
+server.get("/logout", (req, res) => {
+  console.log("logout");
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/");
+    } else {
+      res.redirect("/");
+    }
+  });
+});
 // creating server
 server.use(express.static(path.resolve("src", "public", "css")));
 // encoding the data into json format so that it can be used in the backend
@@ -31,6 +43,7 @@ server.set("views", path.resolve("src", "views"));
 server.get("/", HomepageController.getHomepage);
 server.get("/jobPosting", HomepageController.getJobPage);
 server.get("/registrationForm", HomepageController.getRegisterPage);
+server.get("/login2", HomepageController.getLoginPage1);
 server.post(
   "/registrationForm",
   registrationValidation,

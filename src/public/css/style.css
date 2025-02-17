@@ -215,6 +215,23 @@ main {
   border-radius: 0.5rem;
 }
 /* here is styling for bootstrap button  */
+.btn-secondary {
+  width: 1rem;
+}
 .btn-danger {
-  width: 6rem;
+  width: 10rem;
+  margin: 0.5rem;
+}
+/* here is styling for card which shows when recruiter is logged in and clicks on home page  */
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 2rem 20rem;
+  background-color: gray;
+  width: 28rem;
+  height: 20rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
 }
