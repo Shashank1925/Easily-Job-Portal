@@ -53,7 +53,7 @@ server.post(
   HomepageController.getLoginPage
 );
 // here is the route when new job is posted it shows in job posting page
-server.post("/postjobs", HomepageController.postNewJob);
+server.post("/postjobs", HomepageController.viewJobDetails);
 
 // here is the route for the login form after submitting the registration form
 server.get("/login", HomepageController.getLoginPage);

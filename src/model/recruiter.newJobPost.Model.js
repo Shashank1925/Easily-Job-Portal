@@ -18,7 +18,6 @@ export default class NewJobPost {
     this.dob = dob;
   }
   static newJobPost(post) {
-    // console.log(post);
     const {
       role,
       designation,
@@ -37,11 +36,15 @@ export default class NewJobPost {
       jobopening,
       dob
     );
+    arrayPosting(post);
+    NewJobPost.arrayPosting(post);
     NewJobPost.jobPostingArray.push(newJob);
-    console.log(NewJobPost.jobPostingArray);
-    return NewJobPost.jobPostingArray;
+    // console.log(NewJobPost.jobPostingArray);
+    return newJob;
   }
-  static arrayPosting() {
+  static arrayPosting(post) {
+    NewJobPost.jobPostingArray.push(post);
+    console.log(NewJobPost.jobPostingArray);
     return NewJobPost.jobPostingArray;
   }
 }

@@ -7,17 +7,17 @@
     </div>
     <hr />
     <div class="company-name">
-      <h2>companyName</h2>
-      <p id="tech">non tech:</p>
+      <h2><%= post.companyName %></h2>
+      <p id="tech"><%= post.role %>:<%= post.designation %></p>
     </div>
     <hr />
     <div class="location">
       <i class="fa-solid fa-location-dot" style="color: #63e6be"></i>
-      <p>location</p>
+      <p><%= post.location %></p>
     </div>
     <div class="currency">
       <i class="fa-solid fa-indian-rupee-sign" style="color: #63e6be"></i>
-      <p>salary</p>
+      <p><%= post.salary %></p>
     </div>
     <div class="skills">
       <div class="skillsType">

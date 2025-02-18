@@ -2,7 +2,7 @@ import session from "express-session";
 import RegisterRecruiterData from "../model/register-recruiterModel.js";
 import NewJobPost from "../model/recruiter.newJobPost.Model.js";
 const recruiterData = RegisterRecruiterData.getRecruiterList();
-const jobPosted = NewJobPost.arrayPosting();
+// const jobPosted = NewJobPost.arrayPosting();
 
 export default class HomepageController {
   static getHomepage(req, res) {
@@ -63,9 +63,7 @@ export default class HomepageController {
     if (!req.session.user) {
       return res.redirect("/login");
     }
-    console.log(req.body);
-    // console.log(jobPosted);
-
+    const jobPosted = NewJobPost.arrayPosting(req.body);
     const totalPosts = jobPosted.find(
       (job) =>
         job.companyName === req.body.companyName &&
