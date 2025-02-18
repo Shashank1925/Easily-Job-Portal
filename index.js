@@ -15,7 +15,7 @@ server.use(
   })
 );
 server.use((req, res, next) => {
-  res.locals.user = req.session.user;
+  res.locals.user = req.session.user || null;
   next();
 });
 

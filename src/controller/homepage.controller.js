@@ -1,6 +1,8 @@
 import session from "express-session";
 import RegisterRecruiterData from "../model/register-recruiterModel.js";
+import NewJobPost from "../model/recruiter.newJobPost.Model.js";
 const recruiterData = RegisterRecruiterData.getRecruiterList();
+const jobPosted = NewJobPost.arrayPosting();
 
 export default class HomepageController {
   static getHomepage(req, res) {
@@ -16,7 +18,6 @@ export default class HomepageController {
   static getRegisterPage(req, res) {
     res.render("homePage", {
       body: "recruiter-registrationForm",
-      // user: req.session.user,
     });
   }
   // this method is for rendering login form after submitting the registration form
@@ -29,7 +30,6 @@ export default class HomepageController {
   static getLoginPage1(req, res) {
     res.render("homePage", {
       body: "recruiter-loginForm",
-      // user: req.session.user,
     });
   }
   static getRecruiterJobPostingPage(req, res) {
@@ -37,14 +37,12 @@ export default class HomepageController {
       (recruiter) => recruiter.email === req.body.email
     );
     Object.assign(req.body, userData);
+    const { name, email } = req.body;
     req.session.user = {
-      name: req.body.name,
-      email: req.body.email,
+      name: name,
+      email: email,
     };
-    res.render("homePage", {
-      body: "jobsPosting",
-      // user: req.session.user,
-    });
+    res.redirect("/jobPosting");
   }
   // this method is for getting the new job posting form
   static getPostJobForm(req, res) {
@@ -57,6 +55,31 @@ export default class HomepageController {
   }
   // here method of posting new job
   static postNewJob(req, res) {
+    NewJobPost.newJobPost(req.body);
     res.render("homePage", { body: "jobsPosting", session: req.session.user });
+  }
+
+  static viewJobDetails(req, res) {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+    console.log(req.body);
+    // console.log(jobPosted);
+
+    const totalPosts = jobPosted.find(
+      (job) =>
+        job.companyName === req.body.companyName &&
+        job.designation === req.body.designation
+    );
+    console.log(totalPosts);
+    if (!totalPosts) {
+      return res.status(404).send("Job not found");
+    }
+
+    console.log(totalPosts);
+    res.render("homePage", {
+      body: "jobsPosting",
+      post: totalPosts,
+    });
   }
 }
