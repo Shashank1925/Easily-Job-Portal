@@ -114,13 +114,15 @@ main {
   border-radius: 0.5rem;
   background-color: rgb(245, 148, 79);
   margin: 1rem;
-  /* gap :3rem; */
-}
-/* .updated{
+  justify-content: center;
+ }
+ .job-details-container {
   display: flex;
   justify-content: center;
   align-items: center;
-} */
+  background-color: darkcyan;
+
+}
 .job-description h1 {
   margin-left: 2rem;
 }

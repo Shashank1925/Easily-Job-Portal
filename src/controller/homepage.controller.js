@@ -106,7 +106,7 @@ export default class HomepageController {
   res.render("homePage", { 
     body: "details-Job", 
     session: req.session.user || {}, 
-    posts:allJobs,
+    // posts:allJobs,
     job: job ,
     error: allJobs.length===0 ? "no job posted" : null
   });
