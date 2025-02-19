@@ -50,6 +50,8 @@ server.get("/postjobs", HomepageController.getPostJobForm);
 server.get("/login", HomepageController.getLoginPage);
 // here is the route for the login form from registration form where login button lies
 server.get("/login1", HomepageController.getLoginPage1);
+// here is the route for details about the perticular job
+server.get("/jobDetails/:id", HomepageController.detailsOfJob);
 
 server.post(
   "/registrationForm",

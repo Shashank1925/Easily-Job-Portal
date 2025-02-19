@@ -12,7 +12,7 @@ a {
   color: black;
 }
 nav {
-  background-color: blueviolet;
+  background-color: rgb(245, 155, 21);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -93,15 +93,17 @@ main {
 .jobposting-header {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .new-container {
   display: flex;
-  width: 95%;
+  width: 90%;
+  flex-wrap: wrap;
   border: 5px solid black;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-left: 2rem;
+  background-color: darkcyan;
 }
 .job-description {
   display: flex;
@@ -110,6 +112,9 @@ main {
   height: 30%;
   border: 2px solid black;
   border-radius: 0.5rem;
+  background-color: rgb(245, 148, 79);
+  margin: 1rem;
+  /* gap :3rem; */
 }
 .job-description h1 {
   margin-left: 2rem;
@@ -127,25 +132,25 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 3rem;
 }
-/* #tech {
-  font-size: larger;
-} */
+
 .location,
 .currency,
-.skillsType {
+.skillsType,.totalopening, .date,.applicant {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-size: large;
   margin-left: 1rem;
-  margin-top: 0.7rem;
+  margin-top: 0.3rem;
 }
 .skills {
   display: flex;
   flex-direction: column;
+  height: 12rem;
 }
-.skill {
+.requiredSkills {
   height: 6rem;
   display: flex;
   flex-wrap: wrap;
@@ -168,8 +173,11 @@ main {
   padding: 0.7rem;
   background-color: aquamarine;
   border-radius: 0.5rem;
-  height: 2.4rem;
+  height: 2.3rem;
   margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* here we starts adding styling for recruiter registration page  */
 .form-div {
@@ -254,7 +262,7 @@ main {
 }
 .skill{
   height: 2rem;
-  background-color: rgb(132, 132, 240);
+  background-color: rgb(5, 199, 37);
   color:red;
   font-weight: bold;
 }

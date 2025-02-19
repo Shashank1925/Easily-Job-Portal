@@ -1,0 +1,138 @@
+<!-- <% if(user){ %>
+    <h2 class="jobposting-header">We are hiring...</h2>
+    <% if (posts.length === 0) { %>
+      <p>No job posted yet.</p>
+    <% } else { %>
+        <% posts.forEach((job) => { %>
+            <div class="new-container">
+          <div class="job-description">
+            <div class="hiringStatus">
+              <h3>Actively hiring</h3>
+              <i class="fa-solid fa-chart-line" style="color: #63e6be"></i>
+              <i class="fa-solid fa-pen-to-square" style="color: #5dec40;"></i>
+              <i class="fa-solid fa-trash" style="color: #e69363;"></i>
+            </div>
+            <hr />
+  
+            <div class="company-name">
+              <h3><%= job.companyName %></h3>
+              <p id="tech"><%= job.role %>:<%= job.designation %></p>
+            </div>
+            <hr />
+  
+            <div class="location">
+              <i class="fa-solid fa-location-dot" style="color: #63e6be"></i>
+              <p><%= job.location %></p>
+            </div>
+  
+            <div class="currency">
+              <i class="fa-solid fa-indian-rupee-sign" style="color: #63e6be"></i>
+              <p><%= job.salary %></p>
+            </div>
+            <div class="totalopening">
+              <i class="fa-solid fa-user" style="color: #63E6BE;"></i>
+              <p>Openings : <%= job.jobopening %></p>
+            </div>
+            <div class="date">
+              <i class="fa-solid fa-calendar-minus" style="color: #63E6BE;"></i>
+              <p> <%= job.dob %></p>
+            </div>
+            <div class="applicant">
+                <i class="fa-solid fa-users" style="color: #FFD43B;"></i>            <p>Applicants : </p>
+              </div>
+            <div class="skills">
+              <div class="skillsType">
+                <i class="fa-solid fa-gears" style="color: #63d7e6"></i>
+                <p>Skills Required :</p>
+              </div>
+              <div class="requiredSkills">
+                <% if (job.skills && job.skills.length > 0) { %>
+                  <% job.skills.forEach(skill => { %>
+                    <div class="skillName"><%= skill %></div>
+                  <% }); %>
+                <% } else { %>
+                  <div class="skillName">No skills required</div>
+                <% } %>
+              </div>
+              
+            </div>
+  
+            <div class="details">
+                <button submit="button" id="details"> Back</button>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    <% } %>
+    
+  <% } else { %>
+    <p><%= error %></p>
+  <% } %>
+   -->
+   <% if(user){ %>
+    <h2 class="jobposting-header">We are hiring...</h2>
+    <% if (posts.length === 0) { %>
+      <p>No job posted yet.</p>
+    <% } else { %>
+      <!-- Flex container -->
+      <div class="new-container"> 
+        <% posts.forEach((job) => { %>
+          <!-- Each job card -->
+          <div class="job-description"> 
+            <div class="hiringStatus">
+              <h3>Actively hiring</h3>
+              <i class="fa-solid fa-chart-line" style="color: #63e6be"></i>
+              <i class="fa-solid fa-pen-to-square" style="color: #5dec40;"></i>
+              <i class="fa-solid fa-trash" style="color: #e69363;"></i>
+            </div>
+            <hr />
+            <div class="company-name">
+              <h3><%= job.companyName %></h3>
+              <p id="tech"><%= job.role %>:<%= job.designation %></p>
+            </div>
+            <hr />
+            <div class="location">
+              <i class="fa-solid fa-location-dot" style="color: #63e6be"></i>
+              <p><%= job.location %></p>
+            </div>
+            <div class="currency">
+              <i class="fa-solid fa-indian-rupee-sign" style="color: #63e6be"></i>
+              <p><%= job.salary %></p>
+            </div>
+            <div class="totalopening">
+              <i class="fa-solid fa-user" style="color: #63E6BE;"></i>
+              <p>Openings : <%= job.jobopening %></p>
+            </div>
+            <div class="date">
+              <i class="fa-solid fa-calendar-minus" style="color: #63E6BE;"></i>
+              <p> <%= job.dob %></p>
+            </div>
+            <div class="applicant">
+                <i class="fa-solid fa-users" style="color: #FFD43B;"></i>            <p>Applicants : </p>
+              </div>
+            <div class="skills">
+              <div class="skillsType">
+                <i class="fa-solid fa-gears" style="color: #63d7e6"></i>
+                <p>Skills Required :</p>
+              </div>
+              <div class="requiredSkills">
+                <% if (job.skills && job.skills.length > 0) { %>
+                  <% job.skills.forEach(skill => { %>
+                    <div class="skillName"><%= skill %></div>
+                  <% }); %>
+                <% } else { %>
+                  <div class="skillName">No skills required</div>
+                <% } %>
+              </div>
+            </div>
+            <div class="details">
+              <button type="button" id="details"><a href="#">Back</a></button>
+            </div>
+          </div>
+        <% }); %>
+      </div> <!-- Flex container closed -->
+    <% } %>
+  <% } else { %>
+    <p><%= error %></p>
+  <% } %>
+  

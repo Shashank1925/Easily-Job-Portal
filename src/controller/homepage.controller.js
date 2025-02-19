@@ -53,7 +53,7 @@ export default class HomepageController {
   }
   // this method is for getting the new job posting form
   static getPostJobForm(req, res) {
-    const skills = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js"];
+    const skills = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js","Bootstrap"];
     if (req.session.user) {
       res.render("homePage", {
         body: "newPostJobs",
@@ -70,10 +70,46 @@ export default class HomepageController {
     if(!req.session.user) {
       return res.redirect("/login");
     }
-    NewJobPost.newJobPost(req.body);
+    console.log(req.body);
+    let selectedSkills = [];
+    try {
+        selectedSkills = JSON.parse(req.body.skills || "[]");
+    } catch (error) {
+        console.error("Error parsing skills:", error);
+    }
+    const jobPosted = NewJobPost.newJobPost({ ...req.body, skills: selectedSkills });
+    const totalPosts = jobPosted.filter(
+      (job) =>
+        job.companyName === req.body.companyName &&
+        job.designation === req.body.designation
+    );
      const allJobs=NewJobPost.getAllJobs();
+     console.log(allJobs);
+      if (!totalPosts || totalPosts.length === 0) {
+      return res.status(404).send("Job not found");
+    }
 
      res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
   }
-  
+  static detailsOfJob(req, res) {
+    if(!req.session.user) {
+      return res.redirect("/login");
+    }
+    const jobId = req.params.id;
+     //  Find Job by ID
+    const job = NewJobPost.getAllJobs().find((j) => j.id === jobId);
+        // res.render("homePage", { body: "jobDetails", session: req.session.user || {}, job: job });
+        const allJobs=NewJobPost.getAllJobs();
+
+  if(!job) {
+    return res.status(404).send("Job not found");
+  }
+  res.render("homePage", { 
+    body: "details-Job", 
+    session: req.session.user || {}, 
+    posts:allJobs,
+    job: job ,
+    error: allJobs.length===0 ? "no job posted" : null
+  });
+}
 }
