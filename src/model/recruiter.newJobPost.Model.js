@@ -47,9 +47,7 @@ export default class NewJobPost {
       skills 
     );
      NewJobPost.jobPostingArray.push(newJob);
-    //  console.log(NewJobPost.jobPostingArray);
-     console.log(newJob);
-     return NewJobPost.jobPostingArray;
+      return NewJobPost.jobPostingArray;
   }
   static getAllJobs() {
     return NewJobPost.jobPostingArray;

@@ -116,6 +116,11 @@ main {
   margin: 1rem;
   /* gap :3rem; */
 }
+/* .updated{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
 .job-description h1 {
   margin-left: 2rem;
 }

@@ -52,6 +52,13 @@ server.get("/login", HomepageController.getLoginPage);
 server.get("/login1", HomepageController.getLoginPage1);
 // here is the route for details about the perticular job
 server.get("/jobDetails/:id", HomepageController.detailsOfJob);
+// here is the route for deleting the job post from job posting page by recruiter
+server.get("/deleteJob/:id", HomepageController.deleteJob);
+// here is the route for updating the job post from job posting page by recruiter
+server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
+server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
+
+
 
 server.post(
   "/registrationForm",
