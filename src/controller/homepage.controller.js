@@ -154,6 +154,8 @@ static updateJob(req, res) {
 
     const jobId = req.params.id;
     let jobIndex = NewJobPost.jobPostingArray.findIndex(job => job.id === jobId);
+    const job = NewJobPost.getAllJobs().find(job => job.id === jobId);
+
 
     if (jobIndex === -1) {
         return res.status(404).send("Job Not Found");
@@ -171,8 +173,8 @@ static updateJob(req, res) {
     updatedSkills = [updatedSkills];
 
   }
-  updatedSkills = updatedSkills.flatMap(skill => skill.split(",")); 
-  updatedSkills = [...new Set(updatedSkills.map(skill => skill.trim()))];
+  // updatedSkills = updatedSkills.flatMap(skill => skill.split(",")); 
+  // updatedSkills = [...new Set(updatedSkills.map(skill => skill.trim()))];
      // Update Job Details
     NewJobPost.jobPostingArray[jobIndex] = {
         ...NewJobPost.jobPostingArray[jobIndex],
@@ -193,6 +195,7 @@ static updateJob(req, res) {
       body: "details-Job", 
       session: req.session.user || {}, 
       posts:allJobs,
+      job,
       error: allJobs.length===0 ? "no job posted" : null
     }); }
 }
