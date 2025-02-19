@@ -1,10 +1,11 @@
 import session from "express-session";
 import RegisterRecruiterData from "../model/register-recruiterModel.js";
 import NewJobPost from "../model/recruiter.newJobPost.Model.js";
-const recruiterData = RegisterRecruiterData.getRecruiterList();
+  const recruiterData = RegisterRecruiterData.getRecruiterList();
 // const jobPosted = NewJobPost.arrayPosting();
 
 export default class HomepageController {
+  // this method is for rendering the homepage
   static getHomepage(req, res) {
     res.render("homePage", {
       body: "main",
@@ -13,8 +14,10 @@ export default class HomepageController {
   }
   // here this method is for rendering the job posting page
   static getJobPage(req, res) {
-    res.render("homePage", { body: "jobsPosting" });
+    const allJobs=NewJobPost.getAllJobs();
+    res.render("homePage", { body: "jobsPosting" ,posts:allJobs, error: allJobs.length===0 ? "no job posted" : null  });
   }
+  // this method is for rendering the registration form
   static getRegisterPage(req, res) {
     res.render("homePage", {
       body: "recruiter-registrationForm",
@@ -27,6 +30,7 @@ export default class HomepageController {
       body: "confirmation",
     });
   }
+  // this method is for rendering the login form after clicking on login button which is below registration form
   static getLoginPage1(req, res) {
     res.render("homePage", {
       body: "recruiter-loginForm",
@@ -36,6 +40,9 @@ export default class HomepageController {
     const userData = recruiterData.find(
       (recruiter) => recruiter.email === req.body.email
     );
+    if (!userData) {
+      return res.status(401).send("User not found");
+  }
     Object.assign(req.body, userData);
     const { name, email } = req.body;
     req.session.user = {
@@ -46,38 +53,27 @@ export default class HomepageController {
   }
   // this method is for getting the new job posting form
   static getPostJobForm(req, res) {
-    if (session) {
+    const skills = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js"];
+    if (req.session.user) {
       res.render("homePage", {
         body: "newPostJobs",
+        skills: skills,
         session: req.session.user,
       });
     }
+    else {
+      res.redirect("/");
+    }
   }
-  // here method of posting new job
+  // here method of posting new job after filling the new job posting form
   static postNewJob(req, res) {
-    NewJobPost.newJobPost(req.body);
-    res.render("homePage", { body: "jobsPosting", session: req.session.user });
-  }
-
-  static viewJobDetails(req, res) {
-    if (!req.session.user) {
+    if(!req.session.user) {
       return res.redirect("/login");
     }
-    const jobPosted = NewJobPost.arrayPosting(req.body);
-    const totalPosts = jobPosted.find(
-      (job) =>
-        job.companyName === req.body.companyName &&
-        job.designation === req.body.designation
-    );
-    console.log(totalPosts);
-    if (!totalPosts) {
-      return res.status(404).send("Job not found");
-    }
+    NewJobPost.newJobPost(req.body);
+     const allJobs=NewJobPost.getAllJobs();
 
-    console.log(totalPosts);
-    res.render("homePage", {
-      body: "jobsPosting",
-      post: totalPosts,
-    });
+     res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
   }
+  
 }

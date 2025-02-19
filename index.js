@@ -6,6 +6,8 @@ import registrationValidation from "./src/middleware/registration.validationMidd
 import loginValidation from "./src/middleware/login.validationMiddleware.js";
 import session from "express-session";
 const server = express();
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
 server.use(
   session({
     secret: "shashank", // Change this to a strong secret key
@@ -31,10 +33,8 @@ server.get("/logout", (req, res) => {
   });
 });
 // creating server
-server.use(express.static(path.resolve("src", "public", "css")));
+server.use(express.static(path.resolve("src", "public" )));
 // encoding the data into json format so that it can be used in the backend
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
 
 // ejs engine setup
 server.set("view engine", "ejs");
@@ -46,6 +46,10 @@ server.get("/registrationForm", HomepageController.getRegisterPage);
 server.get("/login2", HomepageController.getLoginPage1);
 // here is the route for the new job posting form
 server.get("/postjobs", HomepageController.getPostJobForm);
+// here is the route for the login form after submitting the registration form
+server.get("/login", HomepageController.getLoginPage);
+// here is the route for the login form from registration form where login button lies
+server.get("/login1", HomepageController.getLoginPage1);
 
 server.post(
   "/registrationForm",
@@ -53,12 +57,8 @@ server.post(
   HomepageController.getLoginPage
 );
 // here is the route when new job is posted it shows in job posting page
-server.post("/postjobs", HomepageController.viewJobDetails);
+server.post("/postjobs", HomepageController.postNewJob);
 
-// here is the route for the login form after submitting the registration form
-server.get("/login", HomepageController.getLoginPage);
-// here is the route for the login form from registration form where login button lies
-server.get("/login1", HomepageController.getLoginPage1);
 server.post(
   "/login",
   loginValidation,

@@ -58,7 +58,7 @@ main {
   justify-content: center;
   align-items: center;
   margin-top: 8rem;
-  background-image: url(/image/backgroung.jpeg);
+  background-image: url(/css/image/backgroung.jpeg);
   background-size: contain;
 }
 .main {
@@ -238,18 +238,73 @@ main {
 /* here styling for newPostJobs page where form for new Post jobs is created   */
 .newOpening {
   border: 5px solid black;
-  width: 50rem;
-  height: 30rem;
+  width: 50.7rem;
+  height: 36.5rem;
   text-align: center;
-  margin: 2rem 20rem;
+  margin: .5rem 18rem;
   border-radius: 1rem;
   background-color: rgb(190, 183, 183);
 }
-#location,
-#salary {
-  width: 100%;
-}
 #dob {
-  width: 15rem;
+  width: 16rem;
+  margin-top: .3rem;
+  margin-left: .7rem;
   border-radius: 0.5rem;
+  height: 2.4rem;
 }
+.skill{
+  height: 2rem;
+  background-color: rgb(132, 132, 240);
+  color:red;
+  font-weight: bold;
+}
+.overflow{
+  font-size: larger;
+  font-weight: bolder;
+}
+.border{
+  height: 7rem;
+}
+/* heighlighting and bading in overflow in skill section */
+.skill.selected {
+  background-color: #63e6be !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.badge {
+  font-size: 14px;
+  border-radius: 5px;
+}
+.overflow-auto {
+  pointer-events: auto !important; 
+}
+.opeining{
+  width: 10rem;
+}
+.combine{
+display: flex;
+ }
+ .group{
+  display: flex;
+  width:49rem;
+  }
+  #location,#salary{
+    margin:0 1rem;
+    width: 23rem;
+  }
+  #jobopening{
+    margin-right: 1rem;
+  }
+  #jobopeningLabel,#companyLabel{
+    margin-left: 1rem;
+  }
+  .form-select{
+    margin: 0 1rem;
+  }
+  #selectedSkillsContainer{
+    height: 2.2rem;
+  }
+  .btn-primary{
+    margin: .4rem 0;
+  }

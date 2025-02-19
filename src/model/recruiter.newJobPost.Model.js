@@ -36,15 +36,11 @@ export default class NewJobPost {
       jobopening,
       dob
     );
-    arrayPosting(post);
-    NewJobPost.arrayPosting(post);
-    NewJobPost.jobPostingArray.push(newJob);
-    // console.log(NewJobPost.jobPostingArray);
-    return newJob;
+     NewJobPost.jobPostingArray.push(newJob);
+     return NewJobPost.jobPostingArray;
   }
-  static arrayPosting(post) {
-    NewJobPost.jobPostingArray.push(post);
-    console.log(NewJobPost.jobPostingArray);
+  static getAllJobs() {
     return NewJobPost.jobPostingArray;
   }
-}
+ }
+ 
