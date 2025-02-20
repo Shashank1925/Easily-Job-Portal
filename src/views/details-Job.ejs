@@ -7,6 +7,9 @@
   <div class="job-details-container">
     <div class="job-description"> 
       <div class="hiringStatus">
+        <% if(!user) {%>
+        <a href="/jobPosting"><i class="fa-solid fa-backward fa-lg" style="color: #FFD43B;"></i></a>
+   <% } %>
         <h3>Actively hiring</h3>
         <i class="fa-solid fa-chart-line" style="color: #63e6be"></i>
 
@@ -66,8 +69,11 @@
         <% if(user) {%>
         <button type="button" id="details"><a href="/jobPosting">Back</a></button>
         <% } else{ %>
-          <button type="button" id="jobSeekerRegistration"><a href="/jobSeekerRegistration">Apply for Job</a></button>
-          <% } %>
+          <button type="button" id="jobSeekerRegistration">
+            <a href="/jobSeekerRegistration">Apply for Job</a>
+          </button>
+          
+                    <% } %>
       </div>
     </div>
   </div>

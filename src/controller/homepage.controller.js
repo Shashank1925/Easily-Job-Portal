@@ -129,15 +129,7 @@ else{
         error: allJobs.length === 0 ? "No job posted" : null
     })};
 }
-// static jobsShowToAll(){
-//   const jobId = req.params.id;
-//   const allJobs = NewJobPost.getAllJobs();
-//   console.log("All Jobs Available:", allJobs);
-//   const job = allJobs.find((j) => j.id == jobId);
-//   console.log("Job Found:", job);
-
  
-
 // this method is for deleting the posted job 
   static deleteJob(req, res) {
     if (!req.session.user) {
@@ -220,5 +212,13 @@ static updateJob(req, res) {
     error: allJobs.length === 0 ? "No job posted" : null 
   });
 }
-
+// this is the method of job seeker registration form 
+static jobSeekerRegistrationForm(req, res) {
+  if (!req.session.user) {
+    return  res.render("homePage", { body: "jobSeekerRegistrationForm" });
+   }
+}
+static jobSeekerLoginForm(){
+  RegistrationJobSeekerData
+}
 }

@@ -33,4 +33,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
   });
+
+  function fixCountryCode(input) {
+    if (!input.value.startsWith("+91-")) {
+      input.value = "+91-";
+    }
+  }
+ 
   
