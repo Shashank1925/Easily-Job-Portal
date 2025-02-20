@@ -15,7 +15,7 @@ export default class HomepageController {
   // here this method is for rendering the job posting page
   static getJobPage(req, res) {
     const allJobs=NewJobPost.getAllJobs();
-    res.render("homePage", { body: "jobsPosting" ,posts:allJobs, error: allJobs.length===0 ? "no job posted" : null  });
+    res.render("homePage", { body: "jobsPosting",session: req.session.user || {} ,posts:allJobs, error: allJobs.length===0 ? "no job posted" : null  });
   }
   // this method is for rendering the registration form
   static getRegisterPage(req, res) {
@@ -44,11 +44,15 @@ export default class HomepageController {
       return res.status(401).send("User not found");
   }
     Object.assign(req.body, userData);
+    console.log("--------------------------------")
+    console.log(req.body);
     const { name, email } = req.body;
     req.session.user = {
       name: name,
       email: email,
+       role: "recruiter",
     };
+    console.log(req.session.user);
     res.redirect("/jobPosting");
   }
   // this method is for getting the new job posting form
@@ -70,7 +74,7 @@ export default class HomepageController {
     if(!req.session.user) {
       return res.redirect("/login");
     }
-    console.log(req.body);
+    // console.log(req.body);
     let selectedSkills = [];
     try {
         selectedSkills = JSON.parse(req.body.skills || "[]");
@@ -84,7 +88,7 @@ export default class HomepageController {
         job.designation === req.body.designation
     );
      const allJobs=NewJobPost.getAllJobs();
-     console.log(allJobs);
+    //  console.log(allJobs);
       if (!totalPosts || totalPosts.length === 0) {
       return res.status(404).send("Job not found");
     }
@@ -106,8 +110,7 @@ export default class HomepageController {
   res.render("homePage", { 
     body: "details-Job", 
     session: req.session.user || {}, 
-    // posts:allJobs,
-    job: job ,
+     job: job ,
     error: allJobs.length===0 ? "no job posted" : null
   });
 }
@@ -182,7 +185,7 @@ static updateJob(req, res) {
     skills: selectedSkills,  // Update skills correctly
   };
 
-  console.log("Updated Job:", NewJobPost.jobPostingArray[jobIndex]);
+  // console.log("Updated Job:", NewJobPost.jobPostingArray[jobIndex]);
 
   //  Render updated job postings
   const allJobs = NewJobPost.getAllJobs();

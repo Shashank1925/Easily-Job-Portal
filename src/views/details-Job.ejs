@@ -1,21 +1,25 @@
-<% if(user){ %>
-  <h2 class="jobposting-header">Job Details</h2>
+<h2 class="jobposting-header">Job Details</h2>
 
-  <% if (!job) { %>
-    <p>Job not found.</p>
-  <% } else { %>
-    <!-- Single Job Card -->
-    <div class="job-details-container">
+<% if (!job) { %>
+  <p>Job not found.</p>
+<% } else { %>
+  <!-- Single Job Card -->
+  <div class="job-details-container">
     <div class="job-description"> 
       <div class="hiringStatus">
         <h3>Actively hiring</h3>
         <i class="fa-solid fa-chart-line" style="color: #63e6be"></i>
-        <a href="/updateJob/<%= job.id %>" onclick="return confirm('Are you sure you want to edit this job?')">
-          <i class="fa-solid fa-pen-to-square" style="color: #5dec40;"></i>
-        </a>
-        <a href="/deleteJob/<%= job.id %>" onclick="return confirm('Are you sure you want to delete this job?');">
-          <i class="fa-solid fa-trash" style="color: #f81616;"></i>
-        </a>
+
+        <!--  Only Recruiter Can See Edit & Delete Buttons -->
+        <% if (session && session.role === "recruiter") { %>
+          <a href="/updateJob/<%= job.id %>" onclick="return confirm('Are you sure you want to edit this job?')">
+            <i class="fa-solid fa-pen-to-square" style="color: #5dec40;"></i>
+          </a>
+          <a href="/deleteJob/<%= job.id %>" onclick="return confirm('Are you sure you want to delete this job?');">
+            <i class="fa-solid fa-trash" style="color: #f81616;"></i>
+          </a>
+        <% } %>
+
       </div>
       <hr />
       <div class="company-name">
@@ -62,8 +66,5 @@
         <button type="button" id="details"><a href="/jobPosting">Back</a></button>
       </div>
     </div>
-    </div>
-  <% } %>
-<% } else { %>
-  <p><%= error %></p>
+  </div>
 <% } %>
