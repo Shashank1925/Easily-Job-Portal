@@ -1,6 +1,7 @@
 import session from "express-session";
 import RegisterRecruiterData from "../model/register-recruiterModel.js";
 import NewJobPost from "../model/recruiter.newJobPost.Model.js";
+import { body } from "express-validator";
   const recruiterData = RegisterRecruiterData.getRecruiterList();
 // const jobPosted = NewJobPost.arrayPosting();
 
@@ -44,7 +45,7 @@ export default class HomepageController {
       return res.status(401).send("User not found");
   }
     Object.assign(req.body, userData);
-    console.log("--------------------------------")
+    console.log("/////////////////////////////////////////////////////////")
     console.log(req.body);
     const { name, email } = req.body;
     req.session.user = {
@@ -96,24 +97,47 @@ export default class HomepageController {
      res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
   }
   static detailsOfJob(req, res) {
-    if(!req.session.user) {
-      return res.redirect("/login");
-    }
     const jobId = req.params.id;
-     //  Find Job by ID
-    const job = NewJobPost.getAllJobs().find((j) => j.id === jobId);
-         const allJobs=NewJobPost.getAllJobs();
+    const allJobs = NewJobPost.getAllJobs();
+    const job = allJobs.find((j) => j.id == jobId);
+    if(!req.session.user) {
+    return   res.render("homePage",{ body:"details-Job",session: null,job:job, error: allJobs.length === 0 ? "No job posted" : null});
+ }
+else{
+    console.log("Job ID:////////////////", jobId);
+    if (!jobId) {
+        return res.status(400).send("Invalid request! Job ID is required.");
+    }
 
-  if(!job) {
-    return res.status(404).send("Job not found");
-  }
-  res.render("homePage", { 
-    body: "details-Job", 
-    session: req.session.user || {}, 
-     job: job ,
-    error: allJobs.length===0 ? "no job posted" : null
-  });
+    console.log("Fetching Job Details for ID:", jobId);
+
+    console.log("All Jobs Available:", allJobs);
+
+    // Ensure the ID comparison works correctly
+
+    if (!job) {
+        return res.status(404).send("Job not found");
+    }
+
+    console.log("Job Found:", job);
+    console.log("Session User:", req.session.user);
+
+    res.render("homePage", { 
+        body: "details-Job", 
+        session: req.session.user || {}, 
+        job: job,
+        error: allJobs.length === 0 ? "No job posted" : null
+    })};
 }
+// static jobsShowToAll(){
+//   const jobId = req.params.id;
+//   const allJobs = NewJobPost.getAllJobs();
+//   console.log("All Jobs Available:", allJobs);
+//   const job = allJobs.find((j) => j.id == jobId);
+//   console.log("Job Found:", job);
+
+ 
+
 // this method is for deleting the posted job 
   static deleteJob(req, res) {
     if (!req.session.user) {

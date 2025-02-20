@@ -323,3 +323,8 @@ display: flex;
   .btn-primary{
     margin: .4rem 0;
   }
+  #jobSeekerRegistration{
+    margin-bottom: 1rem;
+    border-radius: .5rem;
+    padding: .5rem;
+  }

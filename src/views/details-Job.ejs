@@ -63,7 +63,11 @@
         </div>
       </div>
       <div class="details">
+        <% if(user) {%>
         <button type="button" id="details"><a href="/jobPosting">Back</a></button>
+        <% } else{ %>
+          <button type="button" id="jobSeekerRegistration"><a href="/jobSeekerRegistration">Apply for Job</a></button>
+          <% } %>
       </div>
     </div>
   </div>

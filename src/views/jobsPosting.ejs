@@ -1,6 +1,6 @@
 <h2 class="jobposting-header">We are hiring...</h2>
 
-<!-- Job Listings   -->
+<!--  Job Listings -->
 <% if (posts.length === 0) { %>
   <p>No job posted yet.</p>
 <% } else { %>
@@ -51,11 +51,15 @@
           </div>
         </div>
 
-        <!-- More Details   -->
+        <!--  More Details  -->
         <div class="details">
           <button type="button" id="details">
             <a href="/jobDetails/<%= job.id %>">More Details</a>
           </button>
+          <%= console.log("Job ID:----------------------------------------- ", job.id) %>
         </div>
+      </div> 
+    <% }); %>
+  </div>
 
-          
+<% } %>
