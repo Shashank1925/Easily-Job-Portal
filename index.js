@@ -43,10 +43,10 @@ server.set("views", path.resolve("src", "views"));
 server.get("/", HomepageController.getHomepage);
 server.get("/jobPosting", HomepageController.getJobPage);
 server.get("/registrationForm", HomepageController.getRegisterPage);
+// here is the route for the login form after submitting the registration form
 server.get("/login2", HomepageController.getLoginPage1);
 // here is the route for the new job posting form
 server.get("/postjobs", HomepageController.getPostJobForm);
-// here is the route for the login form after submitting the registration form
 server.get("/login", HomepageController.getLoginPage);
 // here is the route for the login form from registration form where login button lies
 server.get("/login1", HomepageController.getLoginPage1);
@@ -58,7 +58,7 @@ server.get("/deleteJob/:id", HomepageController.deleteJob);
 server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
 server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
 server.get("/jobSeekerRegistration",HomepageController.jobSeekerRegistrationForm);
- 
+  
 
 
 server.post(
@@ -75,7 +75,7 @@ server.post(
   HomepageController.getRecruiterJobPostingPage
 );
 // here is the route for jobseeker registration form
-server.post("/applyJob",HomepageController.jobSeekerRegistration);
+server.post("/applyJob",HomepageController.getApplyConfirmation);
 server.listen(5500, () => {
   console.log("Server is running on port 5500");
 });

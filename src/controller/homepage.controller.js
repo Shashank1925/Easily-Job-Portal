@@ -1,8 +1,7 @@
-import session from "express-session";
-import RegisterRecruiterData from "../model/register-recruiterModel.js";
+ import RegisterRecruiterData from "../model/register-recruiterModel.js";
+import RegistrationJobSeeker from "../model/jobSeekerModel.js";
 import NewJobPost from "../model/recruiter.newJobPost.Model.js";
-import { body } from "express-validator";
-  const recruiterData = RegisterRecruiterData.getRecruiterList();
+   const recruiterData = RegisterRecruiterData.getRecruiterList();
 // const jobPosted = NewJobPost.arrayPosting();
 
 export default class HomepageController {
@@ -97,11 +96,12 @@ export default class HomepageController {
      res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
   }
   static detailsOfJob(req, res) {
+    let count= RegistrationJobSeeker.getJobSeekerList();
     const jobId = req.params.id;
     const allJobs = NewJobPost.getAllJobs();
     const job = allJobs.find((j) => j.id == jobId);
     if(!req.session.user) {
-    return   res.render("homePage",{ body:"details-Job",session: null,job:job, error: allJobs.length === 0 ? "No job posted" : null});
+    return   res.render("homePage",{ body:"details-Job",session: null,job,count, error: allJobs.length === 0 ? "No job posted" : null});
  }
 else{
     console.log("Job ID:////////////////", jobId);
@@ -121,11 +121,11 @@ else{
 
     console.log("Job Found:", job);
     console.log("Session User:", req.session.user);
-
     res.render("homePage", { 
         body: "details-Job", 
         session: req.session.user || {}, 
         job: job,
+        count,
         error: allJobs.length === 0 ? "No job posted" : null
     })};
 }
@@ -218,7 +218,11 @@ static jobSeekerRegistrationForm(req, res) {
     return  res.render("homePage", { body: "jobSeekerRegistrationForm" });
    }
 }
-static jobSeekerLoginForm(){
-  RegistrationJobSeekerData
+static getApplyConfirmation(req, res) {
+  console.log(req.body);
+  RegistrationJobSeeker.jobSeekerRegistrationData(req.body);
+  res.render("homePage", {
+    body: "applyConfirmation",
+  });
 }
 }

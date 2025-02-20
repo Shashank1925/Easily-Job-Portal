@@ -1,23 +1,24 @@
       <div class="registrationForm">
       <form action="/applyJob" method="POST">
-        <h2 id="Registration">Registration Form</h2>
+        <h2 id="Registration">Apply For Job</h2>
         <div class="input-group mb-3">
             <span class="input-group-text" id="name">Name</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" max="15">
+            <input type="text" class="form-control" name="name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" maxlength="15">
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="email">Email</span>
-            <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >
+            <input type="email" class="form-control" name="email"   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" >
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" >Contact Number</span>
             <input type="text" class="form-control" id="contact" 
-            placeholder="+91-" value="+91-" 
-            oninput="fixCountryCode(this)" max="10">
+            placeholder="+91-" value="+91-"  name="contact"
+            oninput="fixCountryCode(this)" maxlength="14">
                </div>
             <div class="mb-3">
-                 <input class="form-control" type="file" id="formFile">
+                 <input class="form-control" type="file" id="formFile" name="resume" accept=".pdf , text/plain">
               </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+           
         </div>
