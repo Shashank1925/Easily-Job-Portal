@@ -144,7 +144,7 @@ main {
 
 .location,
 .currency,
-.skillsType,.totalopening, .date,.applicant {
+.skillsType,.totalopening, .date,.applicants {
   display: flex;
   justify-content: flex-start;
   align-items: center;

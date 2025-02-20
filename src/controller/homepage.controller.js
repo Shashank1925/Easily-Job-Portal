@@ -119,6 +119,8 @@ export default class HomepageController {
   const jobId = req.params.id;
   
   NewJobPost.jobPostingArray = NewJobPost.jobPostingArray.filter(job => job.id !== jobId);
+  const job = NewJobPost.getAllJobs().find((j) => j.id === jobId);
+
   // this allJobs should be below NewJobPost.jobPostingArray, otherwise it has to click twice as on one click it will delete but alljobs will update the older list and then on second click it will delete the job
   const allJobs=NewJobPost.getAllJobs();
 // Redirect to homepage after deletion
@@ -126,6 +128,7 @@ res.render("homePage", {
   body: "details-Job", 
   session: req.session.user || {}, 
   posts:allJobs,
+  job,
   error: allJobs.length===0 ? "no job posted" : null
 }); 
   }
@@ -143,59 +146,52 @@ res.render("homePage", {
     }
     const skillsList = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js", "Bootstrap"];
 
-    res.render("homePage", { body: "update-JobPage", session: req.session.user, job, skillsList });
+    res.render("homePage", { body: "update-JobForm", session: req.session.user, job, skillsList });
 }
 // this is to update the job posting form 
 static updateJob(req, res) {
-    
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }
-
-    const jobId = req.params.id;
-    let jobIndex = NewJobPost.jobPostingArray.findIndex(job => job.id === jobId);
-    const job = NewJobPost.getAllJobs().find(job => job.id === jobId);
-
-
-    if (jobIndex === -1) {
-        return res.status(404).send("Job Not Found");
-    }
-    let updatedSkills = req.body.skills;
-    if ( typeof updatedSkills === "string") {
-      try {
-        updatedSkills = JSON.parse(updatedSkills); // Convert JSON string to array
-    } catch (e) {
-        updatedSkills = updatedSkills.split(","); // If not JSON, split as usual
-    }
+  if (!req.session.user) {
+    return res.redirect("/login");
   }
-  else if (Array.isArray(updatedSkills)) {
-    //  Handle case where skills are coming as an array but have comma-separated values inside
-    updatedSkills = [updatedSkills];
 
+  const jobId = req.params.id;  // Find Job by ID
+  const jobIndex = NewJobPost.jobPostingArray.findIndex(job => job.id === jobId);
+
+  if (jobIndex === -1) {
+    return res.status(404).send("Job not found");
   }
-  // updatedSkills = updatedSkills.flatMap(skill => skill.split(",")); 
-  // updatedSkills = [...new Set(updatedSkills.map(skill => skill.trim()))];
-     // Update Job Details
-    NewJobPost.jobPostingArray[jobIndex] = {
-        ...NewJobPost.jobPostingArray[jobIndex],
-        role: req.body.role,
-        designation: req.body.designation,
-        location: req.body.location,
-        companyName: req.body.companyName,
-        salary: req.body.salary,
-        jobopening: req.body.jobopening,
-        dob: req.body.dob,
-        skills: updatedSkills,
-      };
 
-    console.log("Updated Job:", NewJobPost.jobPostingArray[jobIndex]);
-    const allJobs=NewJobPost.getAllJobs();
+  // Parse selected skills
+  let selectedSkills = [];
+  try {
+    selectedSkills = JSON.parse(req.body.skills || "[]");
+  } catch (error) {
+    console.error("Error parsing skills:", error);
+  }
 
-    res.render("homePage", { 
-      body: "details-Job", 
-      session: req.session.user || {}, 
-      posts:allJobs,
-      job,
-      error: allJobs.length===0 ? "no job posted" : null
-    }); }
+  // Update existing job, instead of creating a new one
+  NewJobPost.jobPostingArray[jobIndex] = {
+    ...NewJobPost.jobPostingArray[jobIndex],
+    role: req.body.role,
+    designation: req.body.designation,
+    location: req.body.location,
+    companyName: req.body.companyName,
+    salary: req.body.salary,
+    jobopening: req.body.jobopening,
+    dob: req.body.dob,
+    skills: selectedSkills,  // Update skills correctly
+  };
+
+  console.log("Updated Job:", NewJobPost.jobPostingArray[jobIndex]);
+
+  //  Render updated job postings
+  const allJobs = NewJobPost.getAllJobs();
+  res.render("homePage", { 
+    body: "jobsPosting", 
+    session: req.session.user || {}, 
+    posts: allJobs, 
+    error: allJobs.length === 0 ? "No job posted" : null 
+  });
+}
+
 }
