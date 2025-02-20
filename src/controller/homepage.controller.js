@@ -7,9 +7,12 @@ import NewJobPost from "../model/recruiter.newJobPost.Model.js";
 export default class HomepageController {
   // this method is for rendering the homepage
   static getHomepage(req, res) {
+    const allJobs=NewJobPost.getAllJobs();
+    const numOfJobs=allJobs.length;
     res.render("homePage", {
       body: "main",
       session: req.session.user,
+      
     });
   }
   // here this method is for rendering the job posting page
@@ -53,7 +56,7 @@ export default class HomepageController {
        role: "recruiter",
     };
     console.log(req.session.user);
-    res.redirect("/jobPosting");
+    res.redirect("/");
   }
   // this method is for getting the new job posting form
   static getPostJobForm(req, res) {
@@ -148,7 +151,7 @@ else{
   const allJobs=NewJobPost.getAllJobs();
 // Redirect to homepage after deletion
 res.render("homePage", { 
-  body: "details-Job", 
+  body: "jobsPosting", 
   session: req.session.user || {}, 
   posts:allJobs,
   job,

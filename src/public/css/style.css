@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* background-color: cadetblue; */
 }
 header {
   margin: 0;
@@ -112,7 +113,7 @@ main {
   height: 30%;
   border: 2px solid black;
   border-radius: 0.5rem;
-  background-color: rgb(245, 148, 79);
+  background-color: rgb(245, 115, 40);
   margin: 1rem;
   justify-content: center;
  }
@@ -169,22 +170,35 @@ main {
 #details {
   width: 10rem;
   margin-bottom: 0.8rem;
-  background-color: aquamarine;
+  background-color: rgb(18, 69, 236);
   border-radius: 0.5rem;
   cursor: pointer;
   height: 1.8rem;
   color: brown;
-  font-weight: bolder;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+#details:hover {
+  transform: scale(1.1);
+  background-color: rgb(236, 18, 181);
+  color: white;
 }
 .skillName {
   padding: 0.7rem;
-  background-color: aquamarine;
+  background-color: rgb(52, 243, 179);
   border-radius: 0.5rem;
   height: 2.3rem;
   margin: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+.skillName:hover {
+  background-color: rgb(107, 243, 17);
+  transform: scale(1.1);
+  color: aliceblue;
 }
 /* here we starts adding styling for recruiter registration page  */
 .form-div {
@@ -273,8 +287,8 @@ main {
 }
 .skill{
   height: 2rem;
-  background-color: rgb(5, 199, 37);
-  color:red;
+  background-color: rgb(76, 247, 105);
+  color:rgb(0, 38, 255);
   font-weight: bold;
 }
 .overflow{
@@ -286,9 +300,9 @@ main {
 }
 /* heighlighting and bading in overflow in skill section */
 .skill.selected {
-  background-color: #63e6be !important;
+  background-color: #f337c4 !important;
   color: white !important;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .badge {

@@ -57,11 +57,11 @@ server.get("/jobDetails/:id", HomepageController.detailsOfJob);
 server.get("/deleteJob/:id", HomepageController.deleteJob);
 // here is the route for updating the job post from job posting page by recruiter
 server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
-server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
 server.get("/jobSeekerRegistration",HomepageController.jobSeekerRegistrationForm);
-  
 
 
+
+server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
 server.post(
   "/registrationForm",
   registrationValidation,

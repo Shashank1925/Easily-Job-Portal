@@ -38,7 +38,7 @@
           ></a>
           <a href="/jobPosting"> <p>Jobs</p></a>
           <% if (user) { %>
-          <p>Welcome! <a href="/"><%= user.name.toUpperCase() %></a></p>
+          <p >Welcome! <a href="/" style="color: rgb(83, 252, 5);"><%= user.name.toUpperCase() %></a></p>
           <!-- here drowpdown is being used to logout the user -->
 
           <!-- <a href="/logout" class="btn btn-danger">Logout</a> -->
@@ -70,8 +70,10 @@
         </div>
       </nav>
     </header>
+    
+      <%- include(body) %>
+     
     <!-- here is the main part of the page which handles several ejs files  -->
-    <%- include(body) %>
 
       <!-- JavaScript File Include -->
 <script src="/js/script.js"></script>

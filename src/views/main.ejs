@@ -17,9 +17,10 @@
 <div class="card" style="width: 18rem">
   <div class="card-body">
     <h5 class="card-title"></h5>
-    <p class="card-text">
-     Welcome ! <%= session.name %>
+    <p class="card-text" style="color: rgb(243, 8, 8);">
+     <strong>Welcome !</strong> <Strong><em><%= session.name.toUpperCase() %></em></Strong>
     </p>
-  </div>
+  <p class="card-text" style="color: rgb(64, 235, 12);"><strong>Your email :</strong><strong><em><%= session.email %></em></strong></p>
+   </div>
 </div>
 <% } %>
