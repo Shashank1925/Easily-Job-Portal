@@ -4,6 +4,7 @@ import path from "path";
 import HomepageController from "./src/controller/homepage.controller.js";
 import registrationValidation from "./src/middleware/registration.validationMiddleware.js";
 import loginValidation from "./src/middleware/login.validationMiddleware.js";
+import jobSeekerValidation from "./src/middleware/jobAppliyingMiddleware.js";
 import session from "express-session";
 const server = express();
 server.use(express.urlencoded({ extended: true }));
@@ -75,7 +76,7 @@ server.post(
   HomepageController.getRecruiterJobPostingPage
 );
 // here is the route for jobseeker registration form
-server.post("/applyJob",HomepageController.getApplyConfirmation);
+server.post("/applyJob",jobSeekerValidation,HomepageController.getApplyConfirmation);
 server.listen(5500, () => {
   console.log("Server is running on port 5500");
 });
