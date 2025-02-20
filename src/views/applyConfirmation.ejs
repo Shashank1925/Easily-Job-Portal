@@ -2,5 +2,12 @@
     <svg class="bi flex-shrink-0 me-5" role="img" aria-label="Success:">
       <use xlink:href="#check-circle-fill" />
     </svg>
-    <div>You have Successfully Applied for this Job!</div>
+    <% jobSeekers.forEach(jobSeeker => { %>
+      <% if (jobSeeker.alreadyApplied) { %>
+          <div>Already Applied!</div>
+      <% } else if (!jobSeeker.alreadyApplied) { %>
+          <div>You have Successfully Applied !</div>
+      <% } %>
+  <% }) %>
+  
   </div>

@@ -96,7 +96,11 @@ export default class HomepageController {
      res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
   }
   static detailsOfJob(req, res) {
+    // this is for getting all applied applicants for a particular job 
     let count= RegistrationJobSeeker.getJobSeekerList();
+    // it removes the duplicates from the array of objects 
+    count = [...new Map(count.map(item => [`${item.email}-${item.contact}`, item])).values()];
+
     const jobId = req.params.id;
     const allJobs = NewJobPost.getAllJobs();
     const job = allJobs.find((j) => j.id == jobId);
@@ -221,8 +225,22 @@ static jobSeekerRegistrationForm(req, res) {
 static getApplyConfirmation(req, res) {
   console.log(req.body);
   RegistrationJobSeeker.jobSeekerRegistrationData(req.body);
-  res.render("homePage", {
+   // this is for getting all applied applicants for a particular job 
+   let count= RegistrationJobSeeker.getJobSeekerList();
+   // it removes the duplicates from the array of objects 
+   const seen = new Set();
+    const uniqueJobSeekers = count.map(jobSeeker => {
+        const key = `${jobSeeker.email}-${jobSeeker.contact}`;
+        if (seen.has(key)) {
+            return { ...jobSeeker, alreadyApplied: true };
+        } else {
+            seen.add(key);
+            return { ...jobSeeker, alreadyApplied: false };
+        }
+    });
+   res.render("homePage", {
     body: "applyConfirmation",
+    jobSeekers: uniqueJobSeekers,
   });
 }
 }
