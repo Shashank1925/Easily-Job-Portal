@@ -1,15 +1,25 @@
-<h2 class="jobposting-header">We are hiring...</h2>
-
-<!--  Job Listings -->
+<h2 class="jobposting-header"><h2 class="jobposting-header">
+  <% if (searchQuery) { %>
+    Showing results for: "<%= searchQuery %>"
+  <% } else { %>
+    We are hiring...
+  <% } %>
+</h2>
+</h2>
 <% if (posts.length === 0) { %>
-  <p>No job posted yet.</p>
+  <% if (searchQuery) { %>
+    <p>No jobs found for "<%= searchQuery %>". Try searching something else!</p>
+  <% } else { %>
+    <p>No job postings available yet. Check back later!</p>
+  <% } %>
 <% } else { %>
+
 
   <div class="new-container">
     <% posts.forEach((job) => { %>
       <div class="job-description">
         <div class="hiringStatus">
-          <h3>Actively hiring</h3>
+          <h3 style="color: rgb(109, 241, 109); font-weight: bold;">Actively Hiring</h3>
           <i class="fa-solid fa-chart-line" style="color: #63e6be"></i>
         </div>
         <hr />
@@ -56,8 +66,7 @@
           <button type="button" id="details">
             <a href="/jobDetails/<%= job.id %>">More Details</a>
           </button>
-          <%= console.log("Job ID:----------------------------------------- ", job.id) %>
-        </div>
+         </div>
       </div> 
     <% }); %>
   </div>

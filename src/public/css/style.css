@@ -261,13 +261,18 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 2rem 20rem;
-  background-color: gray;
+  margin: 4rem 20rem;
+  background-color: rgb(149, 150, 148);
   width: 28rem;
   height: 20rem;
   border: 2px solid black;
   border-radius: 0.5rem;
+  transition: all 0.3s ease-in-out;
 }
+.card:hover {
+  transform: translateY(-15px) scale(1.1) rotate3d(0, 0, 1, 360deg);
+}
+
 /* here styling for newPostJobs page where form for new Post jobs is created   */
 .newOpening {
   border: 5px solid black;
@@ -384,6 +389,11 @@ transform: scale(1.1);
   .loginRoute:hover{
     transform: scale(1.1);
     background-color: blue;
+  }
+  #numberOfPost{
+    color: yellow;
+    font-weight: bold;
+    font-size: larger;
   }
   .footer{
     background-color: black;

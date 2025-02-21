@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Portal</title>
+    <title>Easily Job Portal</title>
     <script
       defer
       src="https://kit.fontawesome.com/bb3eee396b.js"
@@ -57,25 +57,33 @@
           <% } %>
         </div>
         <!-- here is another div which contains search input and search button with fontawesome icons  -->
-        <div class="search">
-          <input type="search" name="search" id="search" />
-          <button class="search-btn">
-            <i
-              class="fa-solid fa-magnifying-glass fa-xl"
-              style="color: #63e6be"
-            ></i>
+         
+
+        <form action="/jobPosting" method="GET" class="search">
+          <input 
+            type="text" 
+            name="search" 
+            id="search" 
+            placeholder="Search for jobs..." 
+            value="<%= searchQuery %>"
+          />
+          <button type="submit">
+            <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #63e6be"></i>
           </button>
-        </div>
+        </form>
+        
+        
+
       </nav>
     </header>
     
     <!-- here is the main part of the page which handles several ejs files  -->
     <%- include(body) %>
-    <footer class="footer">  
+    <!-- <footer class="footer">   -->
       <% if (body === "jobsPosting" && posts && posts.length > 0) { %>
         <%- include("pagination") %>
         <% } %>
-      </footer> 
+      <!-- </footer>  -->
       <!-- JavaScript File Include -->
 <script src="/js/script.js"></script>
   </body>

@@ -5,24 +5,48 @@ import NewJobPost from "../model/recruiter.newJobPost.Model.js";
 // const jobPosted = NewJobPost.arrayPosting();
 
 export default class HomepageController {
+  static filterJobs(allJobs, searchQuery) {
+    if (!searchQuery) return allJobs;
+
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    console.log("Filtering jobs for:", lowerCaseQuery); // Debugging
+
+    const filteredJobs = allJobs.filter(job => {
+        console.log("Checking job:", job.role, job.companyName, job.location); // Debugging
+        return (
+            job.role.toLowerCase().includes(lowerCaseQuery) ||
+            job.companyName.toLowerCase().includes(lowerCaseQuery) ||
+            job.location.toLowerCase().includes(lowerCaseQuery)
+        );
+    });
+
+    console.log("Filtered Jobs Count:", filteredJobs.length); // Debugging
+    return filteredJobs;
+}
+
   // this method is for rendering the homepage
   static getHomepage(req, res) {
-     const allJobs = NewJobPost.getAllJobs();
+    const searchQuery = req.query.search ? req.query.search.trim() : ""; // Trim spaces
+    let allJobs = NewJobPost.getAllJobs();
+     allJobs = HomepageController.filterJobs(allJobs, searchQuery);
 
      res.render("homePage", {
       body: "main",
       session: req.session.user,
        allJobs,
+       searchQuery,
     });
   }
   // here this method is for rendering the job posting page
   static getJobPage(req, res) {
-  const allJobs = NewJobPost.getAllJobs();
+    const searchQuery = req.query.search;   // URL search text 
+  let allJobs = NewJobPost.getAllJobs();
   let page = parseInt(req.query.page) || 1;
   let perPage = 3;
-  
   let totalPages = Math.ceil(allJobs.length / perPage);
   let paginatedJobs = allJobs.slice((page - 1) * perPage, page * perPage);
+  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+
 
     res.render("homePage", {
       body: "jobsPosting",
@@ -31,35 +55,54 @@ export default class HomepageController {
       page,
       totalPages,
       pageUrl: "/jobPosting",  
+      searchQuery,
       error: allJobs.length === 0 ? "No job posted" : null,
     });
   }
   // this method is for rendering the registration form
   static getRegisterPage(req, res) {
+    const searchQuery = req.query.search;  
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch  
+    
+    // URL search text 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+    
     res.render("homePage", {
       body: "recruiter-registrationForm",
+      searchQuery,
     });
   }
   // this method is for rendering login form after submitting the registration form
   static getLoginPage(req, res) {
+    const searchQuery = req.query.search;  
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     RegisterRecruiterData.getRegisterRecruiterData(req.body);
     res.render("homePage", {
       body: "confirmation",
+      searchQuery,
     });
   }
   // this method is for rendering the login form after clicking on login button which is below registration form
   static getLoginPage1(req, res) {
+    const searchQuery = req.query.search;  
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     res.render("homePage", {
       body: "recruiter-loginForm",
+      searchQuery,
     });
   }
   static getRecruiterJobPostingPage(req, res) {
+    const searchQuery = req.query.search;  
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     const userData = recruiterData.find(
       (recruiter) => recruiter.email === req.body.email
     );
     if (!userData) {
       return res.status(401).send("User not found");
-  }
+    }
     Object.assign(req.body, userData);
     console.log("/////////////////////////////////////////////////////////")
     console.log(req.body);
@@ -67,19 +110,24 @@ export default class HomepageController {
     req.session.user = {
       name: name,
       email: email,
-       role: "recruiter",
+      role: "recruiter",
+      searchQuery,
     };
     console.log(req.session.user);
     res.redirect("/");
   }
   // this method is for getting the new job posting form
   static getPostJobForm(req, res) {
+    const searchQuery = req.query.search;  
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     const skills = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js","Bootstrap"];
     if (req.session.user) {
       res.render("homePage", {
         body: "newPostJobs",
         skills: skills,
         session: req.session.user,
+        searchQuery,
       });
     }
     else {
@@ -92,67 +140,75 @@ export default class HomepageController {
       return res.redirect("/login");
     }
     // console.log(req.body);
+    const searchQuery = req.query.search;   // URL search text 
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+    
+    
     let selectedSkills = [];
     try {
-        selectedSkills = JSON.parse(req.body.skills || "[]");
+      selectedSkills = JSON.parse(req.body.skills || "[]");
     } catch (error) {
-        console.error("Error parsing skills:", error);
+      console.error("Error parsing skills:", error);
     }
     const jobPosted = NewJobPost.newJobPost({ ...req.body, skills: selectedSkills });
     const totalPosts = jobPosted.filter(
       (job) =>
         job.companyName === req.body.companyName &&
-        job.designation === req.body.designation
+      job.designation === req.body.designation
     );
-     const allJobs=NewJobPost.getAllJobs();
-     if (!allJobs || allJobs.length === 0) {
+    if (!allJobs || allJobs.length === 0) {
       return res.render("homePage", {
-          body: "jobsPosting",
-          session: req.session.user || {},
-          posts: [],
-          page: 1,
-          totalPages: 1,
-          error: "No job posted yet"
+        body: "jobsPosting",
+        session: req.session.user || {},
+        posts: [],
+        page: 1,
+        totalPages: 1,
+        searchQuery,
+        error: "No job posted yet"
       });
-  }
+    }
     //  console.log(allJobs);
-      if (!totalPosts || totalPosts.length === 0) {
+    if (!totalPosts || totalPosts.length === 0) {
       return res.status(404).send("Job not found");
     }
-
+    
     let page = parseInt(req.query.page) || 1;
     let perPage = 3; // 5 jobs per page
     let totalPages = Math.ceil(allJobs.length / perPage);
     let paginatedJobs = allJobs.slice((page - 1) * perPage, page * perPage);
-
+    
     res.render("homePage", {
-        body: "jobsPosting",
-        session: req.session.user || {},
-        posts: paginatedJobs,
-        page,
-        totalPages,
-        pageUrl: "/jobPosting",
-        error: null
+      body: "jobsPosting",
+      session: req.session.user || {},
+      posts: paginatedJobs,
+      page,
+      searchQuery,
+      totalPages,
+      pageUrl: "/jobPosting",
+      error: null
     });
   }
   static detailsOfJob(req, res) {
+    const searchQuery = req.query.search;   // URL search text 
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     // this is for getting all applied applicants for a particular job 
     let count= RegistrationJobSeeker.getJobSeekerList();
     // it removes the duplicates from the array of objects 
     count = [...new Map(count.map(item => [`${item.email}-${item.contact}`, item])).values()];
 
     const jobId = req.params.id;
-    const allJobs = NewJobPost.getAllJobs();
-    const job = allJobs.find((j) => j.id == jobId);
+     const job = allJobs.find((j) => j.id == jobId);
     if(!req.session.user) {
     return   res.render("homePage",{ body:"details-Job",session: null,job,count, error: allJobs.length === 0 ? "No job posted" : null});
  }
 else{
-    console.log("Job ID:////////////////", jobId);
-    if (!jobId) {
+  console.log("Job ID:////////////////", jobId);
+  if (!jobId) {
         return res.status(400).send("Invalid request! Job ID is required.");
     }
-
+    
     console.log("Fetching Job Details for ID:", jobId);
 
     console.log("All Jobs Available:", allJobs);
@@ -160,38 +216,41 @@ else{
     // Ensure the ID comparison works correctly
 
     if (!job) {
-        return res.status(404).send("Job not found");
+      return res.status(404).send("Job not found");
     }
-
+    
     console.log("Job Found:", job);
     console.log("Session User:", req.session.user);
     res.render("homePage", { 
-        body: "details-Job", 
-        session: req.session.user || {}, 
-        job: job,
-        count,
-        error: allJobs.length === 0 ? "No job posted" : null
+      body: "details-Job", 
+      session: req.session.user || {}, 
+      job: job,
+      count,
+      searchQuery,
+      error: allJobs.length === 0 ? "No job posted" : null
     })};
-}
- 
-// this method is for deleting the posted job 
+  }
+  
+  // this method is for deleting the posted job 
   static deleteJob(req, res) {
     if (!req.session.user) {
       return res.redirect("/login");
     }
-  const jobId = req.params.id;
-  
-  NewJobPost.jobPostingArray = NewJobPost.jobPostingArray.filter(job => job.id !== jobId);
-  const job = NewJobPost.getAllJobs().find((j) => j.id === jobId);
-
-  // this allJobs should be below NewJobPost.jobPostingArray, otherwise it has to click twice as on one click it will delete but alljobs will update the older list and then on second click it will delete the job
-  const allJobs=NewJobPost.getAllJobs();
-// Redirect to homepage after deletion
+    const searchQuery = req.query.search;   // URL search text 
+    
+    NewJobPost.jobPostingArray = NewJobPost.jobPostingArray.filter(job => job.id !== jobId);
+    const job = NewJobPost.getAllJobs().find((j) => j.id === jobId);
+    
+    // this allJobs should be below NewJobPost.jobPostingArray, otherwise it has to click twice as on one click it will delete but alljobs will update the older list and then on second click it will delete the job
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);  const jobId = req.params.id;
+ // Redirect to homepage after deletion
 res.render("homePage", { 
   body: "jobsPosting", 
   session: req.session.user || {}, 
   posts:allJobs,
   job,
+  searchQuery,
   error: allJobs.length===0 ? "no job posted" : null
 }); 
   }
@@ -200,7 +259,9 @@ res.render("homePage", {
     if (!req.session.user) {
         return res.redirect("/login");
     }
-
+    const searchQuery = req.query.search;   // URL search text 
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     const jobId = req.params.id;
     const job = NewJobPost.getAllJobs().find(job => job.id === jobId);
 
@@ -208,15 +269,18 @@ res.render("homePage", {
         return res.status(404).send("Job Not Found");
     }
     const skillsList = ["React", "JavaScript", "HTML", "CSS", "Node.js", "MongoDB", "Express.js", "Bootstrap"];
-
-    res.render("homePage", { body: "update-JobForm", session: req.session.user, job, skillsList });
+   
+    
+    res.render("homePage", { body: "update-JobForm", session: req.session.user, searchQuery, job, skillsList });
 }
 // this is to update the job posting form 
 static updateJob(req, res) {
   if (!req.session.user) {
     return res.redirect("/login");
   }
-
+  const searchQuery = req.query.search;   // URL search text 
+  let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
   const jobId = req.params.id;  // Find Job by ID
   const jobIndex = NewJobPost.jobPostingArray.findIndex(job => job.id === jobId);
 
@@ -248,21 +312,27 @@ static updateJob(req, res) {
   // console.log("Updated Job:", NewJobPost.jobPostingArray[jobIndex]);
 
   //  Render updated job postings
-  const allJobs = NewJobPost.getAllJobs();
-  res.render("homePage", { 
+   res.render("homePage", { 
     body: "jobsPosting", 
     session: req.session.user || {}, 
     posts: allJobs, 
+    searchQuery,
     error: allJobs.length === 0 ? "No job posted" : null 
   });
 }
 // this is the method of job seeker registration form 
 static jobSeekerRegistrationForm(req, res) {
   if (!req.session.user) {
-    return  res.render("homePage", { body: "jobSeekerRegistrationForm" });
+    const searchQuery = req.query.search;   // URL search text 
+  let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+    return  res.render("homePage", { body: "jobSeekerRegistrationForm",searchQuery });
    }
 }
 static getApplyConfirmation(req, res) {
+  const searchQuery = req.query.search;   // URL search text 
+  let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
   console.log(req.body);
   RegistrationJobSeeker.jobSeekerRegistrationData(req.body);
    // this is for getting all applied applicants for a particular job 
@@ -280,6 +350,7 @@ static getApplyConfirmation(req, res) {
     });
    res.render("homePage", {
     body: "applyConfirmation",
+    searchQuery,
     jobSeekers: uniqueJobSeekers,
   });
 }
