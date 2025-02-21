@@ -5,6 +5,7 @@ import HomepageController from "./src/controller/homepage.controller.js";
 import registrationValidation from "./src/middleware/registration.validationMiddleware.js";
 import loginValidation from "./src/middleware/login.validationMiddleware.js";
 import jobSeekerValidation from "./src/middleware/jobAppliyingMiddleware.js";
+import upload from "./src/middleware/upload.js";
 import session from "express-session";
 const server = express();
 server.use(express.urlencoded({ extended: true }));
@@ -21,7 +22,10 @@ server.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
-
+// multer use 
+server.post("/uploads",upload.single("resume"),(req,res,next)=>{
+  console.log(req.file);
+})
 server.get("/logout", (req, res) => {
   console.log("logout");
   req.session.destroy((err) => {
@@ -75,6 +79,10 @@ server.post(
   loginValidation,
   HomepageController.getRecruiterJobPostingPage
 );
+
+server.get('/viewApplicants/:jobId',  HomepageController.viewApplicants);
+
+
 // here is the route for jobseeker registration form
 server.post("/applyJob",jobSeekerValidation,HomepageController.getApplyConfirmation);
 server.listen(5500, () => {

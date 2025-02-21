@@ -354,4 +354,19 @@ static getApplyConfirmation(req, res) {
     jobSeekers: uniqueJobSeekers,
   });
 }
+static viewApplicants(req, res) {
+  const jobId = req.params.jobId;
+  console.log("Job ID:", jobId); // Debugging
+
+  const searchQuery = req.query.search;   
+  let allJobs = NewJobPost.getAllJobs();  
+  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+
+  // Get all applicants for this job ID
+  let applicants = RegistrationJobSeeker.getJobSeekerList().filter(applicant => applicant.jobId == jobId);
+
+  // Render viewApplicants.ejs and pass filtered applicants
+  res.render("homePage", { body:"applicantsDetails",  session: req.session.user || {}, 
+    searchQuery, applicants });
+}
 }
