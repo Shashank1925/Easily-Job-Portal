@@ -1,5 +1,5 @@
 <div class="container mt-4">
-    <h2 class="text-center">Applicants for this Job</h2>
+    <h2 class="text-center" style="color: blueviolet;">Applicants for this Job</h2>
 
     <% if (allApplicants.length == 0) { %>
         <p class="text-center text-danger">No applicants yet.</p>
@@ -20,9 +20,7 @@
                         <td><%= jobSeeker.email %></td>
                         <td><%= jobSeeker.contact %></td>
                         <td>
-                            <a href="<%= jobSeeker.resume %>" target="_blank"><%= jobSeeker.resume %></a>
-                             
-                            </a>
+                         <button class="download">   <a href="<%= jobSeeker.resume %>" download="<%= jobSeeker.id %>-resume.pdf">Download</a>    </button>    
                         </td>
                     </tr>
                 <% }) %>

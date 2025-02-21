@@ -23,9 +23,19 @@ server.use((req, res, next) => {
   next();
 });
 // multer use 
-server.post("/uploads",upload.single("resume"),(req,res,next)=>{
-  console.log(req.file);
-})
+server.post("/uploads",upload.single("resume"),(req,res)=>{
+  if (!req.file) {
+    return res.status(400).send("No file uploaded!");
+  }
+
+  // Check file extension
+  if (!req.file.filename.endsWith(".pdf")) {
+    return res.status(400).send("Invalid file format! PDF required.");
+  }
+
+  res.send("File uploaded successfully!");
+});
+
 server.get("/logout", (req, res) => {
   console.log("logout");
   req.session.destroy((err) => {
@@ -39,6 +49,7 @@ server.get("/logout", (req, res) => {
 });
 // creating server
 server.use(express.static(path.resolve("src", "public" )));
+server.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 // encoding the data into json format so that it can be used in the backend
 
 // ejs engine setup
@@ -62,7 +73,7 @@ server.get("/deleteJob/:id", HomepageController.deleteJob);
 // here is the route for updating the job post from job posting page by recruiter
 server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
 server.get("/jobSeekerRegistration",HomepageController.jobSeekerRegistrationForm);
-
+// this route is for nodemailer 
 
 
 server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job

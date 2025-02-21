@@ -1,27 +1,26 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+const uploadDir = path.join(process.cwd(), "uploads");
 
-// Uploads directory path
-const uploadDir = path.join(process.cwd(), "src/public/uploads");
-
-// Ensure uploads folder exists
+// Ensure the uploads directory exists
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // Multer storage configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
+  destination: uploadDir,
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const filename = Date.now() + path.extname(file.originalname);
+    console.log("Saving file:", filename); // Debugging
+    cb(null, filename);
   }
 });
 
 // File filter to allow only PDFs
 const fileFilter = (req, file, cb) => {
+  console.log("Received file:", file.mimetype); // Debugging
   if (file.mimetype === "application/pdf") {
     cb(null, true);
   } else {

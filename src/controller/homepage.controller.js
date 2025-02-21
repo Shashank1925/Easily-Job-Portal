@@ -1,6 +1,7 @@
  import RegisterRecruiterData from "../model/register-recruiterModel.js";
 import RegistrationJobSeeker from "../model/jobSeekerModel.js";
 import NewJobPost from "../model/recruiter.newJobPost.Model.js";
+import sentEmail  from "../middleware/nodemailerMiddleware.js";
    const recruiterData = RegisterRecruiterData.getRecruiterList();
 // const jobPosted = NewJobPost.arrayPosting();
 
@@ -78,6 +79,8 @@ export default class HomepageController {
     let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
     allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     RegisterRecruiterData.getRegisterRecruiterData(req.body);
+    // calling nodemailer function
+      sentEmail(req.body.email);
     res.render("homePage", {
       body: "confirmation",
       searchQuery,
@@ -378,9 +381,7 @@ static viewApplicants(req, res) {
     }
     console.log("------------------------------------------------------------")
 console.log("All Applicants:", allApplicants);
-    // let applicants =  allApplicants.map(applicant => String(applicant.id) == String(jobId));
-    // let applicants =  allApplicants.filter(applicant =>  applicant.id ==  jobId);
-
+ 
     // Render viewApplicants.ejs and pass filtered applicants
     console.log("Applicants Data:", allApplicants);
     res.render("homePage", {
@@ -394,6 +395,4 @@ console.log("All Applicants:", allApplicants);
     res.status(500).send("Internal Server Error");
   }
 }
-
-
 }

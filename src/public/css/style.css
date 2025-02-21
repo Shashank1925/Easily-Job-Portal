@@ -398,3 +398,13 @@ transform: scale(1.1);
   .footer{
     background-color: black;
   }
+  .download{
+    border-radius: .5rem;
+    background-color: rgb(17, 243, 168);
+    transition: transform .3s ease-in-out;
+     padding:0 .5rem;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-left: 1rem;
+  }

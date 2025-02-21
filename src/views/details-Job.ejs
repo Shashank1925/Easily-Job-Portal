@@ -48,8 +48,14 @@
       </div>
       <div class="applicants">
         <i class="fa-solid fa-users" style="color: #FFD43B;"></i>
-        <a href="/viewApplicants/<%= job.id %>"><p>Applicants: <%= count.length %></p></a>
-        
+        <% if (user ) { %>
+          <a href="/viewApplicants/<%= job.id %>">
+              <p>Applicants: <%= count.length %></p>
+          </a>
+      <% } else { %>
+          <p>Applicants: <%= count.length %></p>
+      <% } %>
+            
       </div>
       <div class="skills">
         <div class="skillsType">
