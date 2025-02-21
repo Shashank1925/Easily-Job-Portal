@@ -7,18 +7,32 @@ import NewJobPost from "../model/recruiter.newJobPost.Model.js";
 export default class HomepageController {
   // this method is for rendering the homepage
   static getHomepage(req, res) {
-    const allJobs=NewJobPost.getAllJobs();
-    const numOfJobs=allJobs.length;
-    res.render("homePage", {
+     const allJobs = NewJobPost.getAllJobs();
+
+     res.render("homePage", {
       body: "main",
       session: req.session.user,
-      
+       allJobs,
     });
   }
   // here this method is for rendering the job posting page
   static getJobPage(req, res) {
-    const allJobs=NewJobPost.getAllJobs();
-    res.render("homePage", { body: "jobsPosting",session: req.session.user || {} ,posts:allJobs, error: allJobs.length===0 ? "no job posted" : null  });
+  const allJobs = NewJobPost.getAllJobs();
+  let page = parseInt(req.query.page) || 1;
+  let perPage = 3;
+  
+  let totalPages = Math.ceil(allJobs.length / perPage);
+  let paginatedJobs = allJobs.slice((page - 1) * perPage, page * perPage);
+
+    res.render("homePage", {
+      body: "jobsPosting",
+      session: req.session.user || {},
+      posts: paginatedJobs,
+      page,
+      totalPages,
+      pageUrl: "/jobPosting",  
+      error: allJobs.length === 0 ? "No job posted" : null,
+    });
   }
   // this method is for rendering the registration form
   static getRegisterPage(req, res) {
@@ -91,12 +105,35 @@ export default class HomepageController {
         job.designation === req.body.designation
     );
      const allJobs=NewJobPost.getAllJobs();
+     if (!allJobs || allJobs.length === 0) {
+      return res.render("homePage", {
+          body: "jobsPosting",
+          session: req.session.user || {},
+          posts: [],
+          page: 1,
+          totalPages: 1,
+          error: "No job posted yet"
+      });
+  }
     //  console.log(allJobs);
       if (!totalPosts || totalPosts.length === 0) {
       return res.status(404).send("Job not found");
     }
 
-     res.render("homePage", { body: "jobsPosting", session: req.session.user || {}, posts:allJobs, error: allJobs.length===0 ? "no job posted" : null });
+    let page = parseInt(req.query.page) || 1;
+    let perPage = 3; // 5 jobs per page
+    let totalPages = Math.ceil(allJobs.length / perPage);
+    let paginatedJobs = allJobs.slice((page - 1) * perPage, page * perPage);
+
+    res.render("homePage", {
+        body: "jobsPosting",
+        session: req.session.user || {},
+        posts: paginatedJobs,
+        page,
+        totalPages,
+        pageUrl: "/jobPosting",
+        error: null
+    });
   }
   static detailsOfJob(req, res) {
     // this is for getting all applied applicants for a particular job 

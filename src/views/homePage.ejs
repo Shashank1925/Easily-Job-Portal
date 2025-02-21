@@ -39,9 +39,7 @@
           <a href="/jobPosting"> <p>Jobs</p></a>
           <% if (user) { %>
           <p >Welcome! <a href="/" style="color: rgb(83, 252, 5);"><%= user.name.toUpperCase() %></a></p>
-          <!-- here drowpdown is being used to logout the user -->
-
-          <!-- <a href="/logout" class="btn btn-danger">Logout</a> -->
+                  <!-- here drowpdown is being used to logout the user -->
           <div class="dropdown">
             <button
               class="btn btn-secondary dropdown-toggle"
@@ -71,10 +69,13 @@
       </nav>
     </header>
     
-      <%- include(body) %>
-     
     <!-- here is the main part of the page which handles several ejs files  -->
-
+    <%- include(body) %>
+    <footer class="footer">  
+      <% if (body === "jobsPosting" && posts && posts.length > 0) { %>
+        <%- include("pagination") %>
+        <% } %>
+      </footer> 
       <!-- JavaScript File Include -->
 <script src="/js/script.js"></script>
   </body>

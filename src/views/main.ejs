@@ -21,6 +21,13 @@
      <strong>Welcome !</strong> <Strong><em><%= session.name.toUpperCase() %></em></Strong>
     </p>
   <p class="card-text" style="color: rgb(64, 235, 12);"><strong>Your email :</strong><strong><em><%= session.email %></em></strong></p>
+  <p><strong>Congratulations! You have posted </strong> 
+    <% if (allJobs.length === 1) { %> 
+       <strong> <%= allJobs.length %> job.</strong>
+    <% } else { %> 
+     <strong>   <%= allJobs.length %> jobs.</strong>
+    <% } %>
+</p>
    </div>
 </div>
 <% } %>
