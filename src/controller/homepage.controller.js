@@ -355,18 +355,45 @@ static getApplyConfirmation(req, res) {
   });
 }
 static viewApplicants(req, res) {
-  const jobId = req.params.jobId;
-  console.log("Job ID:", jobId); // Debugging
+  try {
+    const jobId = req.params.jobId;
+    console.log("Job ID:", jobId); // Debugging
 
-  const searchQuery = req.query.search;   
-  let allJobs = NewJobPost.getAllJobs();  
-  allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+    const searchQuery = req.query.search || "";
 
-  // Get all applicants for this job ID
-  let applicants = RegistrationJobSeeker.getJobSeekerList().filter(applicant => applicant.jobId == jobId);
+    // Fetch all jobs and filter based on search
+    let allJobs = NewJobPost.getAllJobs();
+    if (!Array.isArray(allJobs)) {
+      console.error("Error: getAllJobs() did not return an array.");
+      return res.status(500).send("Internal Server Error");
+    }
 
-  // Render viewApplicants.ejs and pass filtered applicants
-  res.render("homePage", { body:"applicantsDetails",  session: req.session.user || {}, 
-    searchQuery, applicants });
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
+
+    // Get applicants for the specified jobId
+    let allApplicants = RegistrationJobSeeker.getJobSeekerList();
+    if (!Array.isArray(allApplicants)) {
+      console.error("Error: getJobSeekerList() did not return an array.");
+      return res.status(500).send("Internal Server Error");
+    }
+    console.log("------------------------------------------------------------")
+console.log("All Applicants:", allApplicants);
+    // let applicants =  allApplicants.map(applicant => String(applicant.id) == String(jobId));
+    // let applicants =  allApplicants.filter(applicant =>  applicant.id ==  jobId);
+
+    // Render viewApplicants.ejs and pass filtered applicants
+    console.log("Applicants Data:", allApplicants);
+    res.render("homePage", {
+      body: "applicantsDetails",
+      session: req.session.user || {}, 
+      searchQuery, 
+      allApplicants
+    });
+  } catch (error) {
+    console.error("Error in getViewApplicants:", error);
+    res.status(500).send("Internal Server Error");
+  }
 }
+
+
 }

@@ -1,7 +1,7 @@
 <div class="container mt-4">
     <h2 class="text-center">Applicants for this Job</h2>
 
-    <% if (applicants.length == 0) { %>
+    <% if (allApplicants.length == 0) { %>
         <p class="text-center text-danger">No applicants yet.</p>
     <% } else { %>
         <table class="table table-bordered text-center mt-3">
@@ -14,14 +14,14 @@
                 </tr>
             </thead>
             <tbody>
-                <% applicants.forEach(jobSeeker => { %>
+                <% allApplicants.forEach(jobSeeker => { %>
                     <tr>
-                        <td><%= jobSeeker.name %></td>
+                        <td><%= jobSeeker.name.toUpperCase() %></td>
                         <td><%= jobSeeker.email %></td>
                         <td><%= jobSeeker.contact %></td>
                         <td>
-                            <a href="<%= jobSeeker.resume %>" target="_blank">View Resume</a>
-                            View Resume
+                            <a href="<%= jobSeeker.resume %>" target="_blank"><%= jobSeeker.resume %></a>
+                             
                             </a>
                         </td>
                     </tr>
