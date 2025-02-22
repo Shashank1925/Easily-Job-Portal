@@ -7,7 +7,11 @@ import loginValidation from "./src/middleware/login.validationMiddleware.js";
 import jobSeekerValidation from "./src/middleware/jobAppliyingMiddleware.js";
 import upload from "./src/middleware/upload.js";
 import session from "express-session";
+import cookieparser from "cookie-parser";
+import setVisit from "./src/middleware/lastVisitMiddleware.js";
 const server = express();
+server.use(cookieparser());
+server.use(setVisit);
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(
@@ -73,8 +77,7 @@ server.get("/deleteJob/:id", HomepageController.deleteJob);
 // here is the route for updating the job post from job posting page by recruiter
 server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
 server.get("/jobSeekerRegistration",HomepageController.jobSeekerRegistrationForm);
-// this route is for nodemailer 
-
+ 
 
 server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
 server.post(
