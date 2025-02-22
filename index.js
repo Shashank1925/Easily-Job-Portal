@@ -64,7 +64,7 @@ server.get("/jobDetails/:id", HomepageController.detailsOfJob);
 server.get("/deleteJob/:id", HomepageController.deleteJob);
 // here is the route for updating the job post from job posting page by recruiter
 server.get("/updateJob/:id", HomepageController.editJob); // Route to fetch job details
-server.get("/jobSeekerRegistration",HomepageController.jobSeekerRegistrationForm);
+server.get("/jobSeekerRegistration/:jobId",HomepageController.jobSeekerRegistrationForm);
  
 
 server.post("/updateJob/:id", HomepageController.updateJob); // Route to update job
@@ -83,7 +83,7 @@ server.post(
 );
 server.get('/viewApplicants/:jobId',  HomepageController.viewApplicants);
 // here is the route for jobseeker registration form
-server.post("/applyJob",upload.single("resume"),jobSeekerValidation,HomepageController.getApplyConfirmation);
+server.post("/applyJob/:jobId",upload.single("resume"),jobSeekerValidation,HomepageController.getApplyConfirmation);
 server.listen(5500, () => {
   console.log("Server is running on port 5500");
 });

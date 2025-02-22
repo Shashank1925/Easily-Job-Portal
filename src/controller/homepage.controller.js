@@ -203,11 +203,11 @@ export default class HomepageController {
     let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
     allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     // this is for getting all applied applicants for a particular job 
-    let count= RegistrationJobSeeker.getJobSeekerList();
+    const jobId = req.params.id;
+    let count= RegistrationJobSeeker.getJobSeekerList(jobId);
     // it removes the duplicates from the array of objects 
     count = [...new Map(count.map(item => [`${item.email}-${item.contact}`, item])).values()];
 
-    const jobId = req.params.id;
      const job = allJobs.find((j) => j.id == jobId);
     if(!req.session.user) {
     return   res.render("homePage",{ body:"details-Job",session: null,job,count,allJobs,searchQuery, error: allJobs.length === 0 ? "No job posted" : null});
@@ -347,10 +347,11 @@ static updateJob(req, res) {
 // this is the method of job seeker registration form 
 static jobSeekerRegistrationForm(req, res) {
   if (!req.session.user) {
+    const jobId = req.params.jobId;
     const searchQuery = req.query.search;   // URL search text 
   let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
   allJobs = HomepageController.filterJobs(allJobs, searchQuery);
-    return  res.render("homePage", { body: "jobSeekerRegistrationForm",searchQuery ,allJobs,});
+    return  res.render("homePage", { body: "jobSeekerRegistrationForm",searchQuery,jobId ,allJobs,});
    }
 }
 static getApplyConfirmation(req, res) {
@@ -364,9 +365,8 @@ static getApplyConfirmation(req, res) {
   if (!req.file.filename.endsWith(".pdf")) {
     return res.status(400).send("Invalid file format! PDF required.");
   }
-  const jobId = req.params.id;
-  console.log("mY jOB iD",jobId);
-  const resumePath = `/uploads/${req.file.filename}`; //  resume path store  in the database
+  const jobId = req.params.jobId;
+   const resumePath = `/uploads/${req.file.filename}`; //  resume path store  in the database
   RegistrationJobSeeker.jobSeekerRegistrationData({...req.body,resume:resumePath,jobId});
    // this is for getting all applied applicants for a particular job 
    let count= RegistrationJobSeeker.getJobSeekerList();
@@ -388,6 +388,7 @@ static getApplyConfirmation(req, res) {
     searchQuery,
     jobSeekers: uniqueJobSeekers,
     allJobs,
+    jobId,
   });
 }
 static viewApplicants(req, res) {
@@ -400,7 +401,7 @@ static viewApplicants(req, res) {
     allJobs = HomepageController.filterJobs(allJobs, searchQuery);
   console.log("All Jobs:", allJobs); // Debugging              getting data from the database
     // Get applicants for the specified jobId
-    let allApplicants = RegistrationJobSeeker.getJobSeekerList();
+    let allApplicants = RegistrationJobSeeker.getJobSeekerList(jobId);
     console.log("Applicants Data:", allApplicants);
     if (!Array.isArray(allApplicants)) {
       console.error("Error: getJobSeekerList() did not return an array.");
