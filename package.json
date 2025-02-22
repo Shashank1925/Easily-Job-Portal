@@ -18,11 +18,7 @@
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "multer": "^1.4.5-lts.1",
-<<<<<<< HEAD
-    "nodemailer": "^6.10.0",
-=======
-        "nodemailer": "^6.10.0",
->>>>>>> 877ca8949bb6b457601a8ec76b9cff6f8e6830e0
-    "uuid": "^11.0.5"
+     "nodemailer": "^6.10.0",   
+     "uuid": "^11.0.5"
   }
 }
