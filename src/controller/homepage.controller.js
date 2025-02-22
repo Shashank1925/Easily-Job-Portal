@@ -357,14 +357,25 @@ static getApplyConfirmation(req, res) {
   const searchQuery = req.query.search;   // URL search text 
   let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
   allJobs = HomepageController.filterJobs(allJobs, searchQuery);
-  console.log(req.body);
-  RegistrationJobSeeker.jobSeekerRegistrationData(req.body);
+  
+  if (!req.file) {
+    return res.status(400).send("No file uploaded!");
+  }
+  if (!req.file.filename.endsWith(".pdf")) {
+    return res.status(400).send("Invalid file format! PDF required.");
+  }
+  const jobId = req.params.id;
+  console.log("mY jOB iD",jobId);
+  const resumePath = `/uploads/${req.file.filename}`; //  resume path store  in the database
+  RegistrationJobSeeker.jobSeekerRegistrationData({...req.body,resume:resumePath,jobId});
    // this is for getting all applied applicants for a particular job 
    let count= RegistrationJobSeeker.getJobSeekerList();
+   let filteredApplicants = count.filter(jobSeeker => jobSeeker.jobId === jobId);
+
    // it removes the duplicates from the array of objects 
    const seen = new Set();
-    const uniqueJobSeekers = count.map(jobSeeker => {
-        const key = `${jobSeeker.email}-${jobSeeker.contact}`;
+    const uniqueJobSeekers = filteredApplicants.map(jobSeeker => {
+        const key = `${jobSeeker.email}-${jobSeeker.contact}-${jobSeeker.jobId}`;
         if (seen.has(key)) {
             return { ...jobSeeker, alreadyApplied: true };
         } else {
@@ -383,28 +394,18 @@ static viewApplicants(req, res) {
   try {
     const jobId = req.params.jobId;
     console.log("Job ID:", jobId); // Debugging
-
     const searchQuery = req.query.search || "";
-
     // Fetch all jobs and filter based on search
     let allJobs = NewJobPost.getAllJobs();
-    if (!Array.isArray(allJobs)) {
-      console.error("Error: getAllJobs() did not return an array.");
-      return res.status(500).send("Internal Server Error");
-    }
-
     allJobs = HomepageController.filterJobs(allJobs, searchQuery);
-
+  console.log("All Jobs:", allJobs); // Debugging              getting data from the database
     // Get applicants for the specified jobId
     let allApplicants = RegistrationJobSeeker.getJobSeekerList();
+    console.log("Applicants Data:", allApplicants);
     if (!Array.isArray(allApplicants)) {
       console.error("Error: getJobSeekerList() did not return an array.");
       return res.status(500).send("Internal Server Error");
-    }
-    console.log("------------------------------------------------------------")
-console.log("All Applicants:", allApplicants);
-    // Render viewApplicants.ejs and pass filtered applicants
-    console.log("Applicants Data:", allApplicants);
+    }     // Render viewApplicants.ejs and pass filtered applicants
     res.render("homePage", {
       body: "applicantsDetails",
       session: req.session.user || {}, 

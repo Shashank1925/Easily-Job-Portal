@@ -1,5 +1,4 @@
 import express from "express";
-// import ejs from "express-ejs-layouts";
 import path from "path";
 import HomepageController from "./src/controller/homepage.controller.js";
 import registrationValidation from "./src/middleware/registration.validationMiddleware.js";
@@ -27,19 +26,8 @@ server.use((req, res, next) => {
   next();
 });
 // multer use 
-server.post("/uploads",upload.single("resume"),(req,res)=>{
-  if (!req.file) {
-    return res.status(400).send("No file uploaded!");
-  }
 
-  // Check file extension
-  if (!req.file.filename.endsWith(".pdf")) {
-    return res.status(400).send("Invalid file format! PDF required.");
-  }
-
-  res.send("File uploaded successfully!");
-});
-
+ 
 server.get("/logout", (req, res) => {
   console.log("logout");
   req.session.destroy((err) => {
@@ -93,12 +81,9 @@ server.post(
   loginValidation,
   HomepageController.getRecruiterJobPostingPage
 );
-
 server.get('/viewApplicants/:jobId',  HomepageController.viewApplicants);
-
-
 // here is the route for jobseeker registration form
-server.post("/applyJob",jobSeekerValidation,HomepageController.getApplyConfirmation);
+server.post("/applyJob",upload.single("resume"),jobSeekerValidation,HomepageController.getApplyConfirmation);
 server.listen(5500, () => {
   console.log("Server is running on port 5500");
 });

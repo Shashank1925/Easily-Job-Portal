@@ -20,7 +20,9 @@
                         <td><%= jobSeeker.email %></td>
                         <td><%= jobSeeker.contact %></td>
                         <td>
-                         <button class="download">   <a href="<%= jobSeeker.resume %>" download="<%= jobSeeker.id %>-resume.pdf">Download</a>    </button>    
+                         <button class="download"> 
+                            <a href="<%= jobSeeker.resume %>" download="<%= jobSeeker.id %>-resume.pdf">Download</a>
+                        </button>    
                         </td>
                     </tr>
                 <% }) %>
