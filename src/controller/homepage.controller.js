@@ -403,7 +403,6 @@ static viewApplicants(req, res) {
     }
     console.log("------------------------------------------------------------")
 console.log("All Applicants:", allApplicants);
- 
     // Render viewApplicants.ejs and pass filtered applicants
     console.log("Applicants Data:", allApplicants);
     res.render("homePage", {

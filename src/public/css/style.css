@@ -408,3 +408,11 @@ transform: scale(1.1);
      align-items: center;
      margin-left: 1rem;
   }
+  .pagination-container {
+      display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: rgb(245, 155, 21);
+     /* margin-top: 1rem; */
+     padding-top: 1rem;
+  }
