@@ -148,8 +148,6 @@ export default class HomepageController {
     }
     // console.log(req.body);
     const searchQuery = req.query.search;   // URL search text 
-    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
-    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     
     
     let selectedSkills = [];
@@ -159,6 +157,8 @@ export default class HomepageController {
       console.error("Error parsing skills:", error);
     }
     const jobPosted = NewJobPost.newJobPost({ ...req.body, skills: selectedSkills });
+    let allJobs = NewJobPost.getAllJobs(); //  jobs fetch 
+    allJobs = HomepageController.filterJobs(allJobs, searchQuery);
     const totalPosts = jobPosted.filter(
       (job) =>
         job.companyName === req.body.companyName &&
@@ -366,7 +366,9 @@ static getApplyConfirmation(req, res) {
     return res.status(400).send("Invalid file format! PDF required.");
   }
   const jobId = req.params.jobId;
-   const resumePath = `/uploads/${req.file.filename}`; //  resume path store  in the database
+   //  resume path store  in the database so that no need to mentioned it in  anchor tag href in applicantsDetails.ejs file and filename is the name of the file mentioned in the multer middleware
+   const resumePath = `/uploads/${req.file.filename}`; 
+  //  object property when resume is available so it gets updated if not available it will store 
   RegistrationJobSeeker.jobSeekerRegistrationData({...req.body,resume:resumePath,jobId});
    // this is for getting all applied applicants for a particular job 
    let count= RegistrationJobSeeker.getJobSeekerList();

@@ -34,6 +34,7 @@ export default class NewJobPost {
       dob,
       skills 
     } = post;
+    // this is for unique id generation 
     const id = uuidv4();
     const newJob = new NewJobPost(
       id,

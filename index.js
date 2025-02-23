@@ -8,10 +8,12 @@ import upload from "./src/middleware/upload.js";
 import session from "express-session";
 import cookieparser from "cookie-parser";
 import setVisit from "./src/middleware/lastVisitMiddleware.js";
+// creating server
 const server = express();
 server.use(cookieparser());
 server.use(setVisit);
 server.use(express.urlencoded({ extended: true }));
+// encoding the data into json format so that it can be used in the backend
 server.use(express.json());
 server.use(
   session({
@@ -39,15 +41,13 @@ server.get("/logout", (req, res) => {
     }
   });
 });
-// creating server
 server.use(express.static(path.resolve("src", "public" )));
-server.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
-// encoding the data into json format so that it can be used in the backend
+server.use("/uploads", express.static(path.join(process.cwd(),"src", "public", "uploads")));
 
 // ejs engine setup
 server.set("view engine", "ejs");
 server.set("views", path.resolve("src", "views"));
-
+// this route gives the homepage of the website
 server.get("/", HomepageController.getHomepage);
 server.get("/jobPosting", HomepageController.getJobPage);
 server.get("/registrationForm", HomepageController.getRegisterPage);
