@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-
 export default class NewJobPost {
   static jobPostingArray = [];
   constructor(
@@ -32,7 +31,7 @@ export default class NewJobPost {
       salary,
       jobopening,
       dob,
-      skills 
+      skills
     } = post;
     // this is for unique id generation 
     const id = uuidv4();
@@ -45,13 +44,13 @@ export default class NewJobPost {
       salary,
       jobopening,
       dob,
-      skills 
+      skills
     );
-     NewJobPost.jobPostingArray.push(newJob);
-      return NewJobPost.jobPostingArray;
+    NewJobPost.jobPostingArray.push(newJob);
+    return NewJobPost.jobPostingArray;
   }
   static getAllJobs() {
     return NewJobPost.jobPostingArray;
   }
- }
- 
+}
+
