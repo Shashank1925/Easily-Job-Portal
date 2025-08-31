@@ -45,8 +45,8 @@ This project replicates the core functionalities of a real-world job portal like
 
 - **Frontend**: HTML, CSS, JavaScript (Vanilla), Bootstrap
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB / (or mention whichever DB used)
-- **Templating**: EJS / Handlebars / (or your templating engine)
+- **Database**: MongoDB  
+- **Templating**: EJS / Handlebars  
 - **Libraries**: nodemailer (for email), mongoose (if MongoDB), express-validator (optional)
 
 
